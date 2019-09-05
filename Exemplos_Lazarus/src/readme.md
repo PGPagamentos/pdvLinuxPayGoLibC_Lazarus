@@ -6,7 +6,8 @@
 - Instalação
 
 ### Pré-requisitos
-  - Lazarus Linux 32bits
+  - Lazarus Linux 32bits versão 2.0.4
+  - FPC versão 3.0.4
   - Ubuntu 16.4 - 32bits
   - Cadastro no ambiente de testes/sandbox do PayGo Web
     - código do Ponto de Captura (PdC)
