@@ -7,7 +7,7 @@
 
 ### Pré-requisitos
   - Lazarus Linux 32bits versão 2.0.4
-  - FPC versão 3.0.4
+  - FPC(FreePascal usado pelo Lazarus para Compilar) versão 3.0.4
   - Ubuntu 16.4 - 32bits
   - Cadastro no ambiente de testes/sandbox do PayGo Web
     - código do Ponto de Captura (PdC)
