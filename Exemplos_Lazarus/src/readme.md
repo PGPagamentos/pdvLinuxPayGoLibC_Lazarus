@@ -15,3 +15,4 @@
 #### Instruções de uso do exemplo Lazarus Linux
 
 - Alterar permissoes(totais) na pasta de execução do Programa e na porta USB que o PinPad estiver Instalado.
+- PGWebLib.so e certificado.crt = devem estar na pasta onde o programa será executado.
