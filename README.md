@@ -3,5 +3,5 @@
 
 ### Funcionalidades implementadas neste exemplo:
 
-Inicialização
-Instalação
+- Inicialização
+- Instalação
