@@ -1,0 +1,163 @@
+object Telprincipal: TTelprincipal
+  Left = 350
+  Height = 476
+  Top = 128
+  Width = 822
+  Caption = 'Teste de Integração PGWebLib'
+  ClientHeight = 476
+  ClientWidth = 822
+  OnCreate = FormCreate
+  Position = poScreenCenter
+  LCLVersion = '2.0.4.0'
+  object Memo1: TMemo
+    Left = 38
+    Height = 295
+    Top = 50
+    Width = 738
+    ScrollBars = ssVertical
+    TabOrder = 0
+  end
+  object Panel1: TPanel
+    Left = 38
+    Height = 70
+    Top = 356
+    Width = 738
+    ClientHeight = 70
+    ClientWidth = 738
+    TabOrder = 1
+    object Label1: TLabel
+      Left = 43
+      Height = 13
+      Top = 8
+      Width = 37
+      Caption = 'Label1'
+      Font.Height = -11
+      Font.Name = 'Sans'
+      ParentColor = False
+      ParentFont = False
+    end
+    object Label2: TLabel
+      Left = 43
+      Height = 13
+      Top = 22
+      Width = 37
+      Caption = 'Label2'
+      Font.Height = -11
+      Font.Name = 'Sans'
+      ParentColor = False
+      ParentFont = False
+    end
+    object Label3: TLabel
+      Left = 42
+      Height = 13
+      Top = 37
+      Width = 37
+      Caption = 'Label3'
+      Font.Height = -11
+      Font.Name = 'Sans'
+      ParentColor = False
+      ParentFont = False
+    end
+    object Label4: TLabel
+      Left = 41
+      Height = 13
+      Top = 52
+      Width = 37
+      Caption = 'Label4'
+      Font.Height = -11
+      Font.Name = 'Sans'
+      ParentColor = False
+      ParentFont = False
+    end
+  end
+  object Panel2: TPanel
+    Left = 3
+    Height = 41
+    Top = -1
+    Width = 813
+    ClientHeight = 41
+    ClientWidth = 813
+    Color = clMoneyGreen
+    Font.Color = clLime
+    ParentColor = False
+    ParentFont = False
+    TabOrder = 2
+    object Button6: TButton
+      Cursor = crHandPoint
+      Left = 71
+      Height = 34
+      Top = 3
+      Width = 70
+      Caption = 'Instalação'
+      Font.Height = -11
+      Font.Name = 'Sans'
+      OnClick = Button6Click
+      ParentFont = False
+      TabOrder = 0
+    end
+    object Button7: TButton
+      Cursor = crHandPoint
+      Left = 147
+      Height = 34
+      Top = 3
+      Width = 50
+      Caption = 'Versão'
+      Font.Height = -11
+      Font.Name = 'Sans'
+      OnClick = Button7Click
+      ParentFont = False
+      TabOrder = 1
+    end
+    object Button8: TButton
+      Cursor = crHandPoint
+      Left = 756
+      Height = 32
+      Top = 4
+      Width = 48
+      Caption = 'Sair'
+      Font.Height = -11
+      Font.Name = 'Sans'
+      OnClick = Button8Click
+      ParentFont = False
+      TabOrder = 2
+    end
+  end
+  object Button5: TButton
+    Cursor = crHandPoint
+    Left = 7
+    Height = 34
+    Top = 2
+    Width = 65
+    Caption = 'Inicializar'
+    Font.Height = -11
+    Font.Name = 'Sans'
+    OnClick = Button5Click
+    ParentFont = False
+    TabOrder = 3
+  end
+  object Button1: TButton
+    Cursor = crHandPoint
+    Left = 35
+    Height = 32
+    Top = 438
+    Width = 114
+    Caption = 'Limpar Log'
+    Font.Height = -11
+    Font.Name = 'Sans'
+    OnClick = Button1Click
+    ParentFont = False
+    TabOrder = 4
+  end
+  object Button2: TButton
+    Cursor = crHandPoint
+    Left = 521
+    Height = 32
+    Top = 438
+    Width = 187
+    Caption = 'Capturar dados no Pinpad'
+    Font.Height = -11
+    Font.Name = 'Sans'
+    ParentFont = False
+    TabOrder = 5
+  end
+end
