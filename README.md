@@ -12,3 +12,7 @@
   - Cadastro no ambiente de testes/sandbox do PayGo Web
     - código do Ponto de Captura (PdC)
     - PIN-Pad
+
+#### Instruções de uso do exemplo Lazarus Linux
+
+- Alterar permissoes(totais) na pasta de execução do Programa e na porta USB que o PinPad estiver Instalado.
