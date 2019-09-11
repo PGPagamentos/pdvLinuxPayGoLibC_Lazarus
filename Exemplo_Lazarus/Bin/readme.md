@@ -19,4 +19,4 @@
 -  Ao Descompactar o pacote, será criado uma pasta de nome EXECUTAVEL, contendo o programa testepaygo.so, PGWebLib.so, certificado.crt
    e um Readme com algumas instruções.
 -  Criar permissões Totais na porta USB que o PinPad estiver Instalado.
--  Pode Executar a aplicação no modo gráfico.
+-  Pode Executar o programa no modo gráfico.
