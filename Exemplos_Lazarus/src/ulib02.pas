@@ -17,8 +17,18 @@ interface
 
 uses
 
-SysUtils, Variants, Classes, StrUtils, LCLType,LCLIntf, LCLProc,Types,
-Graphics,Controls, Forms, Dialogs, StdCtrls, MaskEdit,typinfo;
+
+Classes, SysUtils, Variants, FileUtil,StrUtils, LResources, Forms, Controls, Graphics, Dialogs, StdCtrls,
+LCLType, LCLProc,Types,LCLIntf, LCL, LMessages, Menus, ExtCtrls, typinfo, MaskEdit;
+
+//TextStrings, ExtendedStrings, LazUTF8, LazMethodList, LazLoggerBase, LazUtilities;
+
+//SysUtils, Variants, Classes, StrUtils, LCLType,LCLIntf, LCLProc,Types,
+//Graphics,Controls, Forms, Dialogs, StdCtrls, MaskEdit,typinfo;
+
+
+//SysUtils, Variants, Classes, StrUtils, LCLType,LCLIntf, LCLProc,Types,
+//Graphics,Controls, Forms, Dialogs, StdCtrls, MaskEdit,typinfo;
 
 //Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, System.StrUtils, system.AnsiStrings,
 //Vcl.Graphics,Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.Mask, System.Types, System.TypInfo;
@@ -26,11 +36,14 @@ Graphics,Controls, Forms, Dialogs, StdCtrls, MaskEdit,typinfo;
 
 type
 
+{ TCustomInputBox }
+
 TCustomInputBox = class
 private
-  class procedure EditKeyPress(Sender: TObject; var Key: Char);
+  class procedure Edit1KeyPress(Sender: TObject; var Key: Char);
   class procedure EditChange(Sender: TObject);
 public
+  //procedure Edit1KeyPress(Sender: TObject; var Key: Char);
   class function InputBox(const ACaption, APrompt, ADefault: string): string;
   class function GetAveCharSize(Canvas: TCanvas): TPoint;
 
@@ -68,8 +81,7 @@ begin
 end;
 
 
-
-class procedure TCustomInputBox.EditKeyPress(Sender: TObject; var Key: Char);
+class procedure TCustomInputBox.Edit1KeyPress(Sender: TObject; var Key: Char);
 var
  Texto, Texto2: string;
  i: byte;
@@ -100,10 +112,10 @@ end;
 
 
 
-//==========================================================
+//=========================================================================================
 {
 }
-//==========================================================
+//=========================================================================================
 class function TCustomInputBox.InputBox(const ACaption, APrompt, ADefault: string): string;
 var
 Form: TForm;
@@ -119,6 +131,7 @@ IsValid := False;
 Form   := TForm.Create(nil);
 with Form do
   try
+    KeyPreview:= True;
     FormStyle := fsStayOnTop;
     BorderIcons := BorderIcons - [biSystemMenu] - [biMaximize]; // Tira Maximizar
     Canvas.Font := Font;
@@ -140,6 +153,9 @@ with Form do
       Top      := 10;
       WordWrap := True;
     end;
+
+
+    //Edit1 := TEdit.Create(nil);
     Edit := TEdit.Create(Form);
     with Edit do
     begin
@@ -149,11 +165,12 @@ with Form do
       Width := MulDiv(164, DialogUnits.X, 4);
       MaxLength := 255;
       Text       := ADefault;
-      //OnKeyPress := EditKeyPress;
-      //OnKeyPress := EditKeyPress;
+      //Edit.OnKeyPress := TCustomInputBox.EditKeyPress;
+      //OnKeyPress := Edit1KeyPress;
       //OnChange   := EditChange;
       SelectAll;
     end;
+    //Edit.OnKeyPress:=Edit1KeyPress;
     ButtonTop := Edit.Top + Edit.Height + 15;
     ButtonWidth := MulDiv(50, DialogUnits.X, 4);
     ButtonHeight := MulDiv(14, DialogUnits.Y, 8);
@@ -197,12 +214,10 @@ end;
 
 end.
 
-interface
+//interface
 
-uses
-  Classes, SysUtils;
 
-implementation
+//implementation
 
-end.
+//end.
 

@@ -29,9 +29,9 @@ function KeyIsDown(const Key: integer): boolean;
 
 
 function GetMAveCharSize(Canvas: TCanvas): TPoint;
-function vMInputQuery(const ACaption, APrompt: string; var Value: string; Tipo:Integer): Boolean;
+function vMInputQuery(const ACaption, APrompt: string; var Value: string;Altura:Integer;Tipo:Integer): Boolean;
 //function vMInputBox(const ACaption, APrompt, ADefault: string; x,y: integer): string;
-function vMInputBox(const ACaption, APrompt, ADefault: string; Tipo:Integer): string;
+function vMInputBox(const ACaption, APrompt, ADefault: string;Altura:Integer;Tipo:Integer): string;
 
 Function tirapontos(texto : String) : String;
 
@@ -210,7 +210,7 @@ end;
     Cria Formulário com Mascara para entrada de dados
   }
 //==========================================================
-function vMInputQuery(const ACaption, APrompt: string; var Value: string; Tipo:Integer): Boolean;
+function vMInputQuery(const ACaption, APrompt: string; var Value: string; Altura:Integer;Tipo:Integer): Boolean;
 var
   Form: TForm;
   Prompt: TLabel;
@@ -219,9 +219,13 @@ var
   //Edit: TEdit;
   DialogUnits: TPoint;
   ButtonTop, ButtonWidth, ButtonHeight: Integer;
+  X:Integer;
+  Y:Integer;
 begin
   Result := False;
   Form := TForm.Create(Application);
+  Y := 250;
+  X := 600;
 with Form do
 try
   FormStyle := fsStayOnTop;
@@ -233,15 +237,17 @@ try
   //ClientWidth := MulDiv(180, DialogUnits.X, 4);
   ClientWidth := 360;
   Position := poDesigned;
-  Top := 250;   // 750
-  Left := 600;  // 140
+  Top := Y;   // 250
+  Left := X;  // 600
+  //Top := 250;   // 750
+  //Left := 600;  // 140
   Prompt := TLabel.Create(Form);
 with Prompt do
 begin
   Parent := Form;
   Caption := APrompt;
   Left := MulDiv(8, DialogUnits.X, 4);
-  Top := MulDiv(8, DialogUnits.Y, 8);
+  Top := MulDiv(18, DialogUnits.Y, 18);   // 8
   Constraints.MaxWidth := MulDiv(164, DialogUnits.X, 4);
   WordWrap := True;
 end;
@@ -250,7 +256,8 @@ with Edit do
 begin
   Parent := Form;
   Left := Prompt.Left;
-  Top := Prompt.Top + Prompt.Height + 35;  //5
+  //Top := Prompt.Top + Prompt.Height + 35;  //5
+  Top := Prompt.Top + Prompt.Height + (15 * Altura);   //170;     //5   // Altura do Label Para Varias Linhas
   Width := MulDiv(164, DialogUnits.X, 4);
   MaxLength := 255;
 
@@ -262,6 +269,7 @@ begin
 
   if Tipo = 2 then        // Valor
   begin
+      //EditMask :=  '!990.990;1;_';
       EditMask :=  '000,00;0;_';
   end;
 
@@ -270,7 +278,7 @@ begin
     EditMask :=  '!90:00;0;_';
   end;
 
- if Tipo = 4 then         // Data com ano  de 2 digitos
+ if Tipo = 4 then       // Data com ano  de 2 digitos
   begin
     EditMask := '!99/99/00;0;_';
   end;
@@ -329,10 +337,10 @@ end;
     Executa ImputBox Com Mascara
   }
 //==========================================================
-function vMInputBox(const ACaption, APrompt, ADefault: String; Tipo:Integer): string;
+function vMInputBox(const ACaption, APrompt, ADefault: String; Altura:Integer;Tipo:Integer): string;
 begin
   Result := ADefault;
-  vMInputQuery(ACaption, APrompt, Result, Tipo);
+  vMInputQuery(ACaption, APrompt, Result,Altura,Tipo);
 end;
 
 
