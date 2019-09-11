@@ -4,6 +4,8 @@
 
 - Inicialização
 - Instalação
+- Venda
+- Cancelamento
 
 ### Pré-requisitos
   - Lazarus Linux 32bits versão 2.0.4
