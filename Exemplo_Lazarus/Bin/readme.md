@@ -16,6 +16,7 @@
 #### Instruções de uso do exemplo Lazarus Linux
 
 -  Criar um pasta com permissoes(totais) e copiar o pacote zipado.
--  Criar permissões Totais na porta USB que o PinPad estiver Instalado.
--  Ao descompactar o pacote, será criado uma pasta de nome EXECUTAVEL, contendo o programa testepaygo.so, PGWebLib.so, certificado.crt
+-  Ao Descompactar o pacote, será criado uma pasta de nome EXECUTAVEL, contendo o programa testepaygo.so, PGWebLib.so, certificado.crt
    e um Readme com algumas instruções.
+-  Criar permissões Totais na porta USB que o PinPad estiver Instalado.
+-  Pode Executar a aplicação no modo gráfico.
