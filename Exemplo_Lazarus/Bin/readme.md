@@ -6,6 +6,10 @@
 - Instalação
 - Venda
 - Cancelamento
+- Confirmação
+- Relatório
+- Reimpressão
+
 
 ### Pré-requisitos
   - Ubuntu 16.4 - 32bits
