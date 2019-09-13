@@ -72,7 +72,6 @@ end;
 
 
 
-
 procedure TTelprincipal.FormCreate(Sender: TObject);
 begin
     Label1.Caption := 'PWINFO_AUTNAME(21): ' + '  ' + PWEnums.PGWEBLIBTEST_AUTNAME;

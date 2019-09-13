@@ -185,7 +185,6 @@ object Telprincipal: TTelprincipal
       Top = 5
       Width = 83
       Caption = 'Reimpressão'
-      Enabled = False
       Font.Height = -11
       Font.Name = 'Sans'
       OnClick = Button15Click
@@ -199,7 +198,6 @@ object Telprincipal: TTelprincipal
       Top = 5
       Width = 81
       Caption = 'Confirmação'
-      Enabled = False
       Font.Height = -11
       Font.Name = 'Sans'
       OnClick = Button1Click
@@ -213,7 +211,6 @@ object Telprincipal: TTelprincipal
       Top = 5
       Width = 69
       Caption = 'Relatórios'
-      Enabled = False
       Font.Height = -11
       Font.Name = 'Sans'
       OnClick = Button2Click

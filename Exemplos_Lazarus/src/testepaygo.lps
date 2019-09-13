@@ -8,8 +8,8 @@
         <Filename Value="testepaygo.lpr"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="1"/>
-        <CursorPos Y="18"/>
-        <UsageCount Value="117"/>
+        <CursorPos Y="19"/>
+        <UsageCount Value="122"/>
         <Loaded Value="True"/>
       </Unit0>
       <Unit1>
@@ -18,9 +18,10 @@
         <ComponentName Value="Telprincipal"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <TopLine Value="64"/>
-        <CursorPos X="23" Y="10"/>
-        <UsageCount Value="117"/>
+        <IsVisibleTab Value="True"/>
+        <TopLine Value="70"/>
+        <CursorPos Y="74"/>
+        <UsageCount Value="122"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit1>
@@ -28,17 +29,18 @@
         <Filename Value="upgwlib.pas"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="5"/>
-        <UsageCount Value="117"/>
+        <TopLine Value="3734"/>
+        <CursorPos Y="3750"/>
+        <UsageCount Value="122"/>
         <Loaded Value="True"/>
       </Unit2>
       <Unit3>
         <Filename Value="uenums.pas"/>
         <IsPartOfProject Value="True"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="2"/>
-        <TopLine Value="25"/>
-        <CursorPos X="30" Y="41"/>
-        <UsageCount Value="117"/>
+        <TopLine Value="179"/>
+        <CursorPos X="30" Y="200"/>
+        <UsageCount Value="122"/>
         <Loaded Value="True"/>
       </Unit3>
       <Unit4>
@@ -47,7 +49,7 @@
         <EditorIndex Value="3"/>
         <TopLine Value="240"/>
         <CursorPos X="8" Y="262"/>
-        <UsageCount Value="117"/>
+        <UsageCount Value="122"/>
         <Loaded Value="True"/>
       </Unit4>
       <Unit5>
@@ -56,7 +58,7 @@
         <EditorIndex Value="4"/>
         <TopLine Value="38"/>
         <CursorPos X="72" Y="44"/>
-        <UsageCount Value="117"/>
+        <UsageCount Value="122"/>
         <Loaded Value="True"/>
       </Unit5>
       <Unit6>
@@ -139,31 +141,117 @@
         <UsageCount Value="8"/>
       </Unit16>
     </Units>
-    <JumpHistory Count="6" HistoryIndex="5">
+    <JumpHistory Count="28" HistoryIndex="27">
       <Position1>
-        <Filename Value="principal.pas"/>
-        <Caret Line="143" Column="5" TopLine="120"/>
+        <Filename Value="upgwlib.pas"/>
+        <Caret Line="3503" TopLine="3485"/>
       </Position1>
       <Position2>
         <Filename Value="upgwlib.pas"/>
-        <Caret Line="2900" Column="54" TopLine="2898"/>
+        <Caret Line="3504" TopLine="3485"/>
       </Position2>
       <Position3>
         <Filename Value="upgwlib.pas"/>
-        <Caret Line="3782" TopLine="3759"/>
+        <Caret Line="3508" TopLine="3497"/>
       </Position3>
       <Position4>
-        <Filename Value="testepaygo.lpr"/>
-        <Caret Line="18"/>
+        <Filename Value="upgwlib.pas"/>
+        <Caret Line="2050" TopLine="2039"/>
       </Position4>
       <Position5>
         <Filename Value="upgwlib.pas"/>
-        <Caret Line="714" Column="23" TopLine="702"/>
+        <Caret Line="2056" TopLine="2039"/>
       </Position5>
       <Position6>
-        <Filename Value="uenums.pas"/>
-        <Caret Line="178" Column="23" TopLine="166"/>
+        <Filename Value="upgwlib.pas"/>
+        <Caret Line="2057" TopLine="2039"/>
       </Position6>
+      <Position7>
+        <Filename Value="upgwlib.pas"/>
+        <Caret Line="2032" TopLine="2021"/>
+      </Position7>
+      <Position8>
+        <Filename Value="upgwlib.pas"/>
+        <Caret Line="2037" TopLine="2021"/>
+      </Position8>
+      <Position9>
+        <Filename Value="upgwlib.pas"/>
+        <Caret Line="2043" TopLine="2024"/>
+      </Position9>
+      <Position10>
+        <Filename Value="upgwlib.pas"/>
+        <Caret Line="2044" TopLine="2025"/>
+      </Position10>
+      <Position11>
+        <Filename Value="upgwlib.pas"/>
+        <Caret Line="2045" TopLine="2026"/>
+      </Position11>
+      <Position12>
+        <Filename Value="upgwlib.pas"/>
+        <Caret Line="2049" TopLine="2038"/>
+      </Position12>
+      <Position13>
+        <Filename Value="uenums.pas"/>
+        <Caret Line="290" Column="26" TopLine="272"/>
+      </Position13>
+      <Position14>
+        <Filename Value="upgwlib.pas"/>
+        <Caret Line="265" TopLine="265"/>
+      </Position14>
+      <Position15>
+        <Filename Value="upgwlib.pas"/>
+      </Position15>
+      <Position16>
+        <Filename Value="upgwlib.pas"/>
+        <Caret Line="220" Column="28" TopLine="200"/>
+      </Position16>
+      <Position17>
+        <Filename Value="upgwlib.pas"/>
+        <Caret Line="648" Column="26" TopLine="628"/>
+      </Position17>
+      <Position18>
+        <Filename Value="upgwlib.pas"/>
+        <Caret Line="828" Column="17" TopLine="808"/>
+      </Position18>
+      <Position19>
+        <Filename Value="upgwlib.pas"/>
+        <Caret Line="1002" Column="24" TopLine="983"/>
+      </Position19>
+      <Position20>
+        <Filename Value="upgwlib.pas"/>
+        <Caret Line="1182" Column="22" TopLine="1163"/>
+      </Position20>
+      <Position21>
+        <Filename Value="upgwlib.pas"/>
+        <Caret Line="1713" Column="18" TopLine="1694"/>
+      </Position21>
+      <Position22>
+        <Filename Value="upgwlib.pas"/>
+        <Caret Line="1873" Column="18" TopLine="1854"/>
+      </Position22>
+      <Position23>
+        <Filename Value="upgwlib.pas"/>
+        <Caret Line="2021" Column="18" TopLine="2002"/>
+      </Position23>
+      <Position24>
+        <Filename Value="upgwlib.pas"/>
+        <Caret Line="2413" Column="93" TopLine="2404"/>
+      </Position24>
+      <Position25>
+        <Filename Value="upgwlib.pas"/>
+        <Caret Line="89" Column="63" TopLine="58"/>
+      </Position25>
+      <Position26>
+        <Filename Value="uenums.pas"/>
+      </Position26>
+      <Position27>
+        <Filename Value="uenums.pas"/>
+        <Caret Line="59" Column="31" TopLine="41"/>
+      </Position27>
+      <Position28>
+        <Filename Value="uenums.pas"/>
+        <Caret Line="115" Column="25" TopLine="97"/>
+      </Position28>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>

@@ -33,7 +33,6 @@ ExtCtrls,LCLType, LCLProc, LCLIntf, dynlibs, uEnums, sysutils, uLib;
 
 Type
 
-
   //========================================================
   // Record que descreve cada membro da estrutura PW_GetData:
   //========================================================
@@ -121,8 +120,6 @@ Type
     end;
 
    ConfirmaData = Array[0..0] of TConfirmaData;
-
-
 
 
  //========================================================================================================================================
@@ -635,9 +632,6 @@ Type
 
 
 
-
-
-
   { TPGWLib }
 
   TPGWLib = class
@@ -710,7 +704,6 @@ Const
 implementation
 
 
-
 uses Principal, uLib02;
 
 
@@ -779,15 +772,14 @@ uses Principal, uLib02;
     vGetMsg : PSZ_GetDisplay;
 
     vGetpszDisplay : PSZ_GetDisplay;
-   	xNumParam : int16;
+
+    xNumParam : int16;
 
     xSzValue: AnsiString;
 
     pvstParam:PW_GetData;
 
-
     gstConfirmData: ConfirmaData;
-
 
     iNumParam: Int16;
 
@@ -891,8 +883,6 @@ uses Principal, uLib02;
 
      MandaMemo(' ');
      MandaMemo('Versão da LIB : ' + vGetpszData[0].pszDataxx);
-
-
 
 
 
@@ -3729,7 +3719,6 @@ end;
           end;
 
         PWEnums.PWRET_FROMHOST:
-        //printf("\nRetorno = ERRO DO HOST");
           begin
            MandaMemo('PWRET_FROMHOST');
           end;
@@ -3757,7 +3746,6 @@ end;
           end;
 
         end;
-
 
 
         if(iReturnCode <> PWEnums.PWRET_MOREDATA) and (iReturnCode <> PWEnums.PWRET_DISPLAY) and
