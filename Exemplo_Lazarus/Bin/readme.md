@@ -30,3 +30,9 @@
 http://releases.ubuntu.com/16.04/
 
 - Escolher versão 32-bit PC (i386) desktop image
+
+### Link para Download do Lazarus
+
+https://www.lazarus-ide.org/
+
+- Escolher Lazarus 32bits
