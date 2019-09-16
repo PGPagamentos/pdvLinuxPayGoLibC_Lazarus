@@ -22,3 +22,13 @@
 
 - Alterar permissoes(totais) na pasta de execução do Programa e na porta USB que o PinPad estiver Instalado.
 - PGWebLib.so e certificado.crt = devem estar na pasta onde o programa será executado.
+
+### Link para download do Ubuntu 16.4 32 bits
+http://releases.ubuntu.com/16.04/
+
+- Escolher versão 32-bit PC (i386) desktop image
+
+### Link para Download do Lazarus
+https://www.lazarus-ide.org/
+
+- Escolher Lazarus 32bits
