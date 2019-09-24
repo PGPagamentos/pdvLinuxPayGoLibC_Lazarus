@@ -19,7 +19,7 @@ interface
 
 uses
 LResources, Forms, Controls, Graphics, Dialogs, StdCtrls,FileUtil,strutils,
-ExtCtrls,LCLType, LCLProc, LCLIntf, dynlibs, uEnums, sysutils, uLib;
+ExtCtrls,LCLType, LCLProc, LCLIntf, dynlibs, uEnums, sysutils, uLib, uValor;
 
 
 {
@@ -32,6 +32,7 @@ ExtCtrls,LCLType, LCLProc, LCLIntf, dynlibs, uEnums, sysutils, uLib;
 }
 
 Type
+
 
   //========================================================
   // Record que descreve cada membro da estrutura PW_GetData:
@@ -120,6 +121,8 @@ Type
     end;
 
    ConfirmaData = Array[0..0] of TConfirmaData;
+
+
 
 
  //========================================================================================================================================
@@ -631,6 +634,35 @@ Type
      TPW_iPPGetUserData = function(uiMessageId:UInt16; bMinLen:Byte; bMaxLen:Byte; iToutSec:Int16; var pszData: PSZ_GetDado):Int16;  cdecl;
 
 
+   //========================================================================================================================================
+     { Funcao     :  PW_iPPGetPINBlock
+
+      Descricao  :  Esta função é utilizada para obter o PIN block gerado a partir de um dado digitado pelo usuário no PIN-pad.
+
+      Entradas   :  bKeyID	      : Índice da Master Key (para chave PayGo, utilizar o índice "12").
+                    pszWorkingKey	: Sequência 32 caracteres utilizados para a geração do PIN block (dois valores iguais digitados pelo usuário com duas pszWorkingKey diferentes irão gerar dois PIN block diferentes.
+                    bMinLen	      : Tamanho mínimo do dado a ser digitado (a partir de 4).
+                    bMaxLen     	: Tamanho máximo do dado a ser digitado.
+                    iToutSec    	: Tempo limite para a digitação do dado em segundos.
+                    pszPrompt	   : Mensagem de 32 caracteres (2 linhas com 16 colunas) para apresentação no momento do pedido do dado do usuário.
+
+
+      Saídas     :  pszData        : PIN block gerado com base nos dados fornecidos na função combinados com o dado digitado pelo usuário no PIN-pad.
+
+      Retorno    :  PWRET_OK	         Operação realizada com êxito.
+                    PWRET_DLLNOTINIT	Não foi executado PW_iInit.
+                    PWRET_NOTINST	   É necessário efetuar uma transação de Instalação.
+                    PWRET_CANCEL	   A operação foi cancelada pelo Cliente no PIN-pad (tecla [CANCEL]).
+                    PWRET_TIMEOUT	   O Cliente não realizou a captura no tempo limite.
+                    PWRET_PPCOMERR	   Falha na comunicação com o PIN-pad.
+                    Outro	            Outro erro de execução (ver "10. Códigos de retorno", página 40).
+      }
+   //=========================================================================================================*/
+     TPW_iPPGetPINBlock = function(bKeyID:Byte; pszWorkingKey:AnsiString; bMinLen:Byte;
+                                       bMaxLen:Byte; iToutSec:Int16; pszPrompt:AnsiString; var pszData: PSZ_GetDado):Int16; cdecl;
+
+
+
 
   { TPGWLib }
 
@@ -657,11 +689,17 @@ Type
 
     function ConfirmaTrasacao:integer;
 
+    function ConfirmaTrasacaoAA:integer;
+
     function Reimpressao:Integer;
 
     function Relatorios:Integer;
 
     function Cancelamento:Integer;
+
+    function Admin:Integer;
+
+    function TesteAA:Integer;
 
     function GetParamConfirma:Integer;
 
@@ -682,6 +720,10 @@ Type
     function PrintResultParams:Integer;
 
     function Aguardando:string;
+
+    function PORTADOR(PWDADO:string):Integer;
+
+    function CapturaPinPad(nome:string; identificador:Byte; min:Byte; max:Byte):Integer;
 
 
   end;
@@ -704,7 +746,8 @@ Const
 implementation
 
 
-uses Principal, uLib02;
+
+uses Principal, uLib02, fcaptura;
 
 
   var
@@ -747,6 +790,7 @@ uses Principal, uLib02;
 
     MyFunc_iPPWaitEvent:TPW_iPPWaitEvent;
 
+    MyFunc_iPPGetPINBlock:TPW_iPPGetPINBlock;
 
 
     //***********
@@ -756,15 +800,10 @@ uses Principal, uLib02;
     gfAutoAtendimento: Boolean;
 
     xpszData: Array[0..20] of char;
-
     iRetorno: SmallInt;
-
     vGetdataArray : PW_GetData;
-
     vstGetData : PW_GetData;
-
     vGetpszData : PSZ_GetData;
-
     vGetpszErro : PSZ_GetData;
 
     vGetpszDado : PSZ_GetDado;
@@ -772,21 +811,17 @@ uses Principal, uLib02;
     vGetMsg : PSZ_GetDisplay;
 
     vGetpszDisplay : PSZ_GetDisplay;
-
-    xNumParam : int16;
-
+   	xNumParam : int16;
     xSzValue: AnsiString;
-
     pvstParam:PW_GetData;
+
 
     gstConfirmData: ConfirmaData;
 
+
     iNumParam: Int16;
-
     iRet: Int16;
-
     iRetErro:Integer;
-
     Volta : String;
 
 
@@ -886,11 +921,13 @@ uses Principal, uLib02;
 
 
 
+
+
   end;
 
 
 //=================================================================================
-//  Metodo para inicializar Lib
+//   Inicializa a Lib, Informando a Pasta onde deve ser criado os Logs
 //=================================================================================
 
   procedure TPGWLib.Init;
@@ -1057,21 +1094,9 @@ uses Principal, uLib02;
                       end;
 
 
-                    if (iRet = PWEnums.PWRET_FROMHOSTPENDTRN) then
-                        begin
-                            // Busca Parametros da Transação Pendente
-                            //GetParamPendenteConfirma();
-                        end
-                    else
-                        begin
-                            // Busca Parametros da Transação Atual
-                            //GetParamConfirma();
-                        end;
-
                     MyFunc_iGetResult := TPW_iGetResult(GetProcedureAddress(MyLibC, 'PW_iGetResult'));
                     iRet := MyFunc_iGetResult (PWEnums.PWINFO_CNFREQ, vGetpszData, SizeOf(vGetpszData));
 
-                    //iRet := PW_iGetResult(PWEnums.PWINFO_CNFREQ, vGetpszData, SizeOf(vGetpszData));
                     Volta := vGetpszData[0].pszDataxx;
                     if (Volta = '1') then
                        begin
@@ -1118,6 +1143,7 @@ uses Principal, uLib02;
   begin
 
 
+      // Carrega a Lib
 
       iretornar := Carrega_Lib();
       if (iretornar <> 0) then
@@ -1341,6 +1367,7 @@ uses Principal, uLib02;
   begin
 
 
+          // Carrega Lib
           iretornar := Carrega_Lib();
           if (iretornar <> 0) then
              Exit;
@@ -1640,11 +1667,49 @@ uses Principal, uLib02;
 
 
 
+  //=====================================================================================
+    {
+     Funcao     :  ConfirmaTransacaoAA
+                   Confirmação Automatica para AutoAtendimento
+
+     Descricao  : Esta função informa ao Pay&Go Web o status final da transação
+                  em curso (confirmada ou desfeita).Confirmação de transação
+   }
+  //=====================================================================================*/
+  function TPGWLib.ConfirmaTrasacaoAA: integer;
+  var
+    ulStatus:Integer;
+    WretornaConf: PSZ_GetData;
+  begin
+
+      ulStatus := PWEnums.PWCNF_CNF_AUTO;
+
+      // Executa Confirmação
+
+      MyFunc_iConfirmation := TPW_iConfirmation(GetProcedureAddress(MyLibC, 'PW_iConfirmation'));
+      iRet := MyFunc_iConfirmation (ulStatus, gstConfirmData[0].szReqNum,gstConfirmData[0].szLocRef,gstConfirmData[0].szExtRef,gstConfirmData[0].szVirtMerch,gstConfirmData[0].szAuthSyst);
+      //iRet := PW_iConfirmation(ulStatus, gstConfirmData[0].szReqNum,gstConfirmData[0].szLocRef,gstConfirmData[0].szExtRef,gstConfirmData[0].szVirtMerch,gstConfirmData[0].szAuthSyst);
+
+      if (iRet <> PWEnums.PWRET_OK) then
+         begin
+           MandaMemo('Erro ao Confirmar Transação !!');
+           MandaMemo(' ');
+         end
+      else
+         begin
+            MandaMemo('CONFIRMAÇÃO OK');
+            MandaMemo(' ');
+         end;
+
+         //PrintResultParams();
+
+
+  end;
 
 
   //=====================================================================================
     {
-       Reimpressão de Recibo da ultima Venda
+       Reimpressão do Recibo da Ultima Venda
     }
   //======================================================================================
   function TPGWLib.Reimpressao: Integer;
@@ -1804,7 +1869,7 @@ uses Principal, uLib02;
 
   //=====================================================================================
     {
-       Relatórios das vendas e cancelamentos por Data informada
+       Relatório Do Movimento das Vendas e Cancelamentos
     }
   //======================================================================================
   function TPGWLib.Relatorios: Integer;
@@ -2126,6 +2191,546 @@ uses Principal, uLib02;
 
 
 
+  //=====================================================================================
+    {
+       Metodo Administrativo.
+    }
+  //=====================================================================================
+  function TPGWLib.Admin: Integer;
+    var
+      iParam : Integer;
+      Volta : String;
+      iRet:Integer;
+      iRetI: Integer;
+      iRetErro : integer;
+      strNome : String;
+      I:Integer;
+      xloop:integer;
+      voltaA:AnsiChar;
+      iretornar :Integer;
+  begin
+
+      I := 0;
+
+      // Carrega Lib
+      iretornar := Carrega_Lib();
+      if (iretornar <> 0) then
+         Exit;
+
+
+      // Nova Transação Admin  PWOPER_ADMIN
+      MyFunc_iNewTransac := TPW_iNewTransac(GetProcedureAddress(MyLibC, 'PW_iNewTransac'));
+      iRet := MyFunc_iNewTransac (PWEnums.PWOPER_ADMIN);
+
+
+      if (iRet <> PWEnums.PWRET_OK) then
+         begin
+            // Verifica se Foi inicializada a biblioteca
+            if (iRet = PWEnums.PWRET_DLLNOTINIT)  then
+                begin
+                    MyFunc_iGetResult := TPW_iGetResult(GetProcedureAddress(MyLibC, 'PW_iGetResult'));
+                    iRetErro := MyFunc_iGetResult (PWEnums.PWINFO_RESULTMSG, vGetpszData, SizeOf(vGetpszData));
+                    Volta := vGetpszData[0].pszDataxx;
+                    MandaMemo(Volta);
+                end
+            // verifica se foi feito instalação
+            else if (iRet = PWEnums.PWRET_NOTINST)  then
+                begin
+                    MyFunc_iGetResult := TPW_iGetResult(GetProcedureAddress(MyLibC, 'PW_iGetResult'));
+                    iRetErro := MyFunc_iGetResult (PWEnums.PWINFO_RESULTMSG, vGetpszData, SizeOf(vGetpszData));
+
+                    Volta := vGetpszData[0].pszDataxx;
+                    MandaMemo(Volta);
+                end
+            // Outro Erro
+            else
+                begin
+                    MyFunc_iGetResult := TPW_iGetResult(GetProcedureAddress(MyLibC, 'PW_iGetResult'));
+                    iRetErro := MyFunc_iGetResult (PWEnums.PWINFO_RESULTMSG, vGetpszData, SizeOf(vGetpszData));
+                    Volta := vGetpszData[0].pszDataxx;
+                    MandaMemo(Volta);
+                end;
+
+
+                Exit;
+
+         end;
+
+
+
+
+      AddMandatoryParams;  // Parametros obrigatórios
+
+
+
+      //=====================================================
+      //  Loop Para Capturar Dados e executar Transação
+      //=====================================================
+      while I < 100 do
+      begin
+
+          // Coloca o valor 10 (tamanho da estrutura de entrada) no parâmetro iNumParam
+          xNumParam := 10;
+
+
+
+          // Tenta executar a transação
+          if(iRet <> PWEnums.PWRET_NOTHING) then
+            begin
+              //ShowMessage('Processando...');
+            end;
+
+
+          MyFunc_iExecTransac := TPW_iExecTransac(GetProcedureAddress(MyLibC, 'PW_iExecTransac'));
+          iRet := MyFunc_iExecTransac (vGetdataArray, @xNumParam);
+          //iRet := PW_iExecTransac(vGetdataArray, @xNumParam);
+          if (iRet = PWEnums.PWRET_MOREDATA) then
+            begin
+
+               // Tenta capturar os dados faltantes, caso ocorra algum erro retorna
+               iRetErro := iExecGetData(vGetdataArray,xNumParam);
+               if (iRetErro <> 0) then
+                  begin
+                    Exit;
+                  end
+               else
+                  begin
+                    I := I+1;
+                    Continue;
+                  end;
+
+            end
+          else
+            begin
+
+                if(iRet = PWEnums.PWRET_NOTHING) then
+                  begin
+                    I := I+1;
+                    Continue;
+                  end;
+
+                if (iRet = PWEnums.PWRET_FROMHOSTPENDTRN) then
+                    begin
+                        // Busca Parametros da Transação Pendente
+                        GetParamPendenteConfirma();
+                    end
+                else
+                    begin
+                        // Busca Parametros da Transação Atual
+                        GetParamConfirma();
+                    end;
+
+
+
+                 Break;
+
+
+            end;
+
+
+      end;
+
+      // Busca necessidade de Confirmação.
+      MyFunc_iGetResult := TPW_iGetResult(GetProcedureAddress(MyLibC, 'PW_iGetResult'));
+      iRet := MyFunc_iGetResult (PWEnums.PWINFO_CNFREQ, vGetpszData, SizeOf(vGetpszData));
+
+      Volta := vGetpszData[0].pszDataxx;
+      if (Volta = '1') then
+         begin
+            MandaMemo(' PWINFO_CNFREQ = 1');
+            MandaMemo(' ');
+            MandaMemo('É Necessário Confirmar esta Transação !');
+            MandaMemo(' ');
+
+            // Metodo confirma a transação
+            ConfirmaTrasacao();
+
+         end;
+
+
+      PrintResultParams();
+
+
+
+
+  end;
+
+
+
+  //========================================================
+    {
+      Função que Executa Operação  de
+      Auto Atendimento
+    }
+  //========================================================
+  function TPGWLib.TesteAA: Integer;
+  var
+      iParam : Integer;
+      Volta : String;
+      iRet:Integer;
+      iRetI: Integer;
+      iRetErro : integer;
+      strNome : String;
+      I:Integer;
+      xloop:integer;
+      voltaA:AnsiChar;
+      ulEvent: UInt32;
+      szDspMsg : PSZ_GetData;
+      iretornar:Integer;
+  begin
+
+
+
+      // Carrega Lib
+      iretornar := Carrega_Lib();
+      if (iretornar <> 0) then
+         Exit;
+
+
+
+      gfAutoAtendimento := True;
+
+
+      ulEvent := 0;
+
+      I := 0;
+
+      while I < 10 do
+      begin
+
+
+          MyFunc_iPPDisplay := TPW_iPPDisplay(GetProcedureAddress(MyLibC, 'PW_iPPDisplay'));
+          iRet := MyFunc_iPPDisplay('INSIRA OU PASSE    O CARTAO');
+
+          if (iRet <> PWEnums.PWRET_OK) then
+             begin
+                // Verifica se Foi inicializada a biblioteca
+                if (iRet = PWEnums.PWRET_DLLNOTINIT)  then
+                    begin
+                        MyFunc_iGetResult := TPW_iGetResult(GetProcedureAddress(MyLibC, 'PW_iGetResult'));
+                        iRetErro := MyFunc_iGetResult (PWEnums.PWINFO_RESULTMSG, vGetpszData, SizeOf(vGetpszData));
+                        Volta := vGetpszData[0].pszDataxx;
+                        MandaMemo(Volta);
+                    end
+                // verifica se foi feito instalação
+                else if (iRet = PWEnums.PWRET_NOTINST)  then
+                    begin
+                        MyFunc_iGetResult := TPW_iGetResult(GetProcedureAddress(MyLibC, 'PW_iGetResult'));
+                        iRetErro := MyFunc_iGetResult (PWEnums.PWINFO_RESULTMSG, vGetpszData, SizeOf(vGetpszData));
+
+                        Volta := vGetpszData[0].pszDataxx;
+                        MandaMemo(Volta);
+                    end
+                // Outro Erro
+                else
+                    begin
+                        MyFunc_iGetResult := TPW_iGetResult(GetProcedureAddress(MyLibC, 'PW_iGetResult'));
+                        iRetErro := MyFunc_iGetResult (PWEnums.PWINFO_RESULTMSG, vGetpszData, SizeOf(vGetpszData));
+                        Volta := vGetpszData[0].pszDataxx;
+                        MandaMemo(Volta);
+                    end;
+
+
+                    Exit;
+
+             end;
+
+
+
+            if (iRet <> PWEnums.PWRET_OK) then
+               begin
+                 MandaMemo('Erro em PW_iPPDisplay =  ' + IntToStr(iRet));
+                 MandaMemo(' ');
+                 Exit;
+               end;
+
+
+            MandaMemo('AGUARDANDO CARTAO PARA INICIAR OPERACAO!!!');
+            MandaMemo(' ');
+
+
+              while  I < 10  do
+              begin
+                   MyFunc_iPPEventLoop := TPW_iPPEventLoop(GetProcedureAddress(MyLibC, 'PW_iPPEventLoop'));
+                   iRet := MyFunc_iPPEventLoop (vGetpszDisplay, sizeof(vGetpszDisplay));
+                   if (iRet = PWEnums.PWRET_DISPLAY) then
+                      begin
+                          MandaMemo(szDspMsg[0].pszDataxx);
+                          MandaMemo(' ');
+                      end;
+
+                     if (iRet = PWEnums.PWRET_TIMEOUT)  then
+                       begin
+                         Result := iRet;
+                         Exit;
+                       end;
+
+
+                     if (iRet = PWEnums.PWRET_OK)  then
+                       begin
+                         Break;
+                       end;
+
+
+                     Sleep(1000);
+
+
+
+                     Aguardando();
+
+
+              end;
+
+              // Aguarda o cartão do cliente
+              MyFunc_iPPWaitEvent := TPW_iPPWaitEvent(GetProcedureAddress(MyLibC, 'PW_iPPWaitEvent'));
+              iRet := MyFunc_iPPWaitEvent (ulEvent);
+              if (iRet <> PWEnums.PWRET_OK) then
+                 begin
+                     MandaMemo('Erro em PPWaitEvent = ' + IntToStr(iRet));
+                     MandaMemo(' ');
+                     Exit;
+                 end;
+
+
+              while  I < 10  do
+              begin
+                   MyFunc_iPPEventLoop := TPW_iPPEventLoop(GetProcedureAddress(MyLibC, 'PW_iPPEventLoop'));
+                   iRet := MyFunc_iPPEventLoop (szDspMsg, sizeof(szDspMsg));
+                   if (iRet = PWEnums.PWRET_DISPLAY) then
+                      begin
+                          MandaMemo(szDspMsg[0].pszDataxx);
+                          MandaMemo(' ');
+                      end;
+
+                     if (iRet = PWEnums.PWRET_TIMEOUT)  then
+                       begin
+                         Result := iRet;
+                         Exit;
+                       end;
+
+
+                     if (iRet = PWEnums.PWRET_OK)  then
+                       begin
+                          Break;
+                       end;
+
+
+
+                     Sleep(500);
+
+                     Aguardando();
+
+
+                     // Verifica se Teclou <ESC>
+                     if GetKeyState(VK_ESCAPE)<>0 then
+                        begin
+                          MyFunc_iPPAbort := TPW_iPPAbort(GetProcedureAddress(MyLibC, 'PW_iPPAbort'));
+                          iRetErro := MyFunc_iPPAbort();
+                          MandaMemo(' ');
+                          MandaMemo('TRANSAÇÃO ABORTADA PELA APLICAÇÃO');
+                          mRCancelado := 1;
+                          Result := 1;
+                          Exit;
+                          Break;
+                        end
+                     else
+                        begin
+                          mRCancelado := 0;
+                        end;
+
+
+
+              end;
+
+               // PWPPEVT_ICC        - Foi detectada a presença de um cartão com chip
+               // PWPPEVT_MAGSTRIPE  - Foi passado um cartão magnético
+               // PWPPEVT_CTLS       - Foi detectada a presença de um cartão sem contato
+              if((ulEvent = PWEnums.PWPPEVT_ICC) or (ulEvent = PWEnums.PWPPEVT_MAGSTRIPE)  or (ulEvent = PWEnums.PWPPEVT_CTLS)) then
+                  begin
+                     break;
+                  end;
+
+      end;
+
+
+      // Exibe mensagem processando no PIN-pad
+      MyFunc_iPPDisplay := TPW_iPPDisplay(GetProcedureAddress(MyLibC, 'PW_iPPDisplay'));
+      iRet := MyFunc_iPPDisplay('PROCESSANDO...');
+      if (iRet <> PWEnums.PWRET_OK) then
+         begin
+           MandaMemo('Erro em PW_iPPDisplay =  ' + IntToStr(iRet));
+           MandaMemo(' ');
+           Exit;
+         end;
+
+
+
+      while  I < 10  do
+        begin
+             MyFunc_iPPEventLoop := TPW_iPPEventLoop(GetProcedureAddress(MyLibC, 'PW_iPPEventLoop'));
+             iRet := MyFunc_iPPEventLoop (szDspMsg, sizeof(szDspMsg));
+             if (iRet = PWEnums.PWRET_DISPLAY) then
+                begin
+                    MandaMemo(szDspMsg[0].pszDataxx);
+                    MandaMemo(' ');
+                end;
+
+               if (iRet = PWEnums.PWRET_TIMEOUT)  then
+                 begin
+                   Result := iRet;
+                   Exit;
+                 end;
+
+
+               if (iRet = PWEnums.PWRET_OK)  then
+                 begin
+                    Break;
+                 end;
+
+
+
+               Sleep(1000);
+
+               Aguardando();
+
+
+        end;
+
+
+       // Inicializa a transação de venda
+
+          MyFunc_iNewTransac := TPW_iNewTransac(GetProcedureAddress(MyLibC, 'PW_iNewTransac'));
+          iRet := MyFunc_iNewTransac (PWEnums.PWOPER_SALE);
+
+          if (iRet <> PWEnums.PWRET_OK) then
+             begin
+                MandaMemo('Erro PW_iNewTransac: ' + IntToStr(iRet));
+                MandaMemo(' ');
+             end;
+
+
+           // Parametros obrigatórios
+           AddMandatoryParams;
+
+           // Adiciona Valor Para Testar Operação;
+           MyFunc_iAddParam := TPW_iAddParam(GetProcedureAddress(MyLibC, 'PW_iAddParam'));
+           iRet := MyFunc_iAddParam(PWEnums.PWINFO_TOTAMNT, '100');
+
+
+
+      //=====================================================
+      //  Loop Para Capturar Dados e executar Transação
+      //=====================================================
+      while I < 100 do
+      begin
+
+          // Coloca o valor 10 (tamanho da estrutura de entrada) no parâmetro iNumParam
+          xNumParam := 10;
+
+
+
+          // Tenta executar a transação
+          if(iRet <> PWEnums.PWRET_NOTHING) then
+            begin
+              MandaMemo('Processando...');
+              MandaMemo('');
+            end;
+
+          MyFunc_iExecTransac := TPW_iExecTransac(GetProcedureAddress(MyLibC, 'PW_iExecTransac'));
+          iRet := MyFunc_iExecTransac (vGetdataArray, @xNumParam);
+
+          MandaMemo(' ');
+          PrintReturnDescription(iRet,'');
+
+
+          if (iRet = PWEnums.PWRET_MOREDATA) then
+            begin
+
+               MandaMemo('Numero de Parametros Ausentes: ' + IntToStr(xNumParam));
+
+
+               // Tenta capturar os dados faltantes, caso ocorra algum erro retorna
+               iRetErro := iExecGetData(vGetdataArray,xNumParam);
+               if (iRetErro <> PWEnums.PWRET_OK) then
+                  begin
+
+                      MyFunc_iGetResult := TPW_iGetResult(GetProcedureAddress(MyLibC, 'PW_iGetResult'));
+                      iRet := MyFunc_iGetResult (PWEnums.PWINFO_CNFREQ, vGetpszData, SizeOf(vGetpszData));
+                      Volta := vGetpszData[0].pszDataxx;
+                      if (Volta = '1') then
+                         begin
+                            MandaMemo(' PWINFO_CNFREQ = 1');
+                            MandaMemo(' ');
+                            MandaMemo('Erro: ' + IntToStr(iRetErro) +  ' , É Necessário Confirmar esta Transação !');
+                            MandaMemo(' ');
+
+                            // Metodo confirma a transação
+                            ConfirmaTrasacao();
+                         end;
+
+                      Exit;
+                  end
+               else
+                  begin
+                  //  I := I+1;
+                    Continue;
+                  end;
+
+            end
+          else
+            begin
+
+                if(iRet = PWEnums.PWRET_NOTHING) then
+                  begin
+                   // I := I+1;
+                    Continue;
+                  end;
+
+
+                if (iRet = PWEnums.PWRET_FROMHOSTPENDTRN) then
+                    begin
+                        // Busca Parametros da Transação Pendente
+                        GetParamPendenteConfirma();
+                    end
+                else
+                    begin
+                        // Busca Parametros da Transação Atual
+                        GetParamConfirma();
+                    end;
+
+                MyFunc_iGetResult := TPW_iGetResult(GetProcedureAddress(MyLibC, 'PW_iGetResult'));
+                iRet := MyFunc_iGetResult (PWEnums.PWINFO_CNFREQ, vGetpszData, SizeOf(vGetpszData));
+                Volta := vGetpszData[0].pszDataxx;
+                if (Volta = '1') then
+                   begin
+                      MandaMemo(' PWINFO_CNFREQ = 1');
+                      MandaMemo(' ');
+                      MandaMemo('Confirmando Transação ...');
+                      MandaMemo(' ');
+
+                      // Metodo confirma a transação Automaticamente
+                      ConfirmaTrasacaoAA();
+
+                   end;
+
+
+                Break;
+
+
+            end;
+
+
+      end;
+
+
+      PrintResultParams();
+
+  gfAutoAtendimento := False;
+
+
+
+
+  end;
 
 
   //============================================================================
@@ -2184,7 +2789,7 @@ uses Principal, uLib02;
 
   //============================================================================
     {
-      Busca Parametros para confirmação automatica da Ultima Transação de Venda.
+      Busca Parametros para confirmação automatica da Transação Pendente.
     }
   //============================================================================
   function TPGWLib.GetParamPendenteConfirma: Integer;
@@ -2300,7 +2905,6 @@ uses Principal, uLib02;
       begin
          if FreeLibrary(MyLibC) then
             begin
-              //ShowMessage('Lib Será Descarregada');
               MyLibC:= DynLibs.NilHandle;  // Descarrega LIB se já Estiver Carregado
             end
       end
@@ -2365,9 +2969,11 @@ uses Principal, uLib02;
 
   //=====================================================================================*\
     {
-       Função Auxiliar
+       Metodo Auxiliar para Mensagem no Log da Aplicação
     }
-    //=====================================================================================*\
+  //=====================================================================================*/
+
+
   function TPGWLib.Aguardando: string;
   var
       Y:Integer;
@@ -2389,6 +2995,182 @@ uses Principal, uLib02;
      TelPrincipal.Memo1.Lines.Strings[Y] :=  txt;
 
   end;
+
+
+
+
+  //==========================================================
+  // Retorna Valor da Constante escolhida na Captura no PinPad
+  //==========================================================
+  function TPGWLib.PORTADOR(PWDADO: string): Integer;
+  begin
+      case AnsiIndexStr(PWDADO,
+      //case AnsiIndexStr(PWDADO,
+          ['DIGITE_O_DDD',
+          'REDIGITE_O_DDD',
+          'DIGITE_O_TELEFONE',
+          'REDIGITE_O_TELEFONE',
+          'DIGITE_DDD_TELEFONE',
+          'REDIGITE_DDD_TELEFONE',
+          'DIGITE_O_CPF',
+          'REDIGITE_O_CPF',
+          'DIGITE_O_RG',
+          'REDIGITE_O_RG',
+          'DIGITE_OS_4_ULTIMOS_DIGITOS',
+          'DIGITE_CODIGO_DE_SEGURANCA']) of
+
+          0: Result := PWEnums.DIGITE_O_DDD;
+          1: Result := PWEnums.REDIGITE_O_DDD;
+          2: Result := PWEnums.DIGITE_O_TELEFONE;
+          3: Result := PWEnums.REDIGITE_O_TELEFONE;
+          4: Result := PWEnums.DIGITE_DDD_TELEFONE;
+          5: Result := PWEnums.REDIGITE_DDD_TELEFONE;
+          6: Result := PWEnums.DIGITE_O_CPF;
+          7: Result := PWEnums.REDIGITE_O_CPF;
+          8: Result := PWEnums.DIGITE_O_RG;
+          9: Result := PWEnums.REDIGITE_O_RG;
+          10: Result := PWEnums.DIGITE_OS_4_ULTIMOS_DIGITOS;
+          11: Result := PWEnums.DIGITE_CODIGO_DE_SEGURANCA;
+       else
+          ShowMessage('Nenhuma Opção Escolhida');
+       end;
+  end;
+
+
+//=====================================================================================
+    {
+       Captura de Dados do PinPad (em desenvolvimento, não usar)
+    }
+//=====================================================================================
+
+
+  function TPGWLib.CapturaPinPad(nome: string; identificador: Byte; min: Byte;
+    max: Byte): Integer;
+  var
+   teste:string;
+   codigo: Byte;
+   Volta : String;
+   iRetErro : integer;
+   iRetValor:Integer;
+   szWorkingKey:AnsiString;
+   szPrompt:AnsiString;
+   iretornar:Integer;
+  begin
+
+
+      iretornar := Carrega_Lib();
+      if (iretornar <> 0) then
+         Exit;
+
+
+     if (min < 1) then
+        begin
+          ShowMessage('Informar Tamanho Minimo Válido');
+          Result := 1;
+          Exit;
+        end;
+
+     if (max < 1) then
+        begin
+          ShowMessage('Informar Tamanho Maximo Válido');
+          Result := 1;
+          Exit;
+        end;
+
+
+     // Escolha efetuada
+
+     //PW_iPPGetUserData
+     if (TelCaptura.RadioButton1.Checked = True) then
+         begin
+            if (nome = '') then
+               begin
+                 ShowMessage('Escolha Mensagem Válida');
+                 Result := 1;
+                 Exit;
+               end;
+
+            // Busca  valor da constante escolhida
+            iRetValor := PORTADOR(nome);
+
+            MyFunc_iPPGetUserData := TPW_iPPGetUserData(GetProcedureAddress(MyLibC, 'PW_iPPGetUserData'));
+            iRet := MyFunc_iPPGetUserData(iRetValor,min,max,30,vGetpszDado);
+         end;
+
+     // PW_iPPGetPINBlock
+     if (TelCaptura.RadioButton2.Checked = True) then
+         begin
+            if (min < 4) then
+               begin
+                 ShowMessage('Informar Tamanho Minimo de 4 Caracteres');
+                 Result := 1;
+                 Exit;
+               end;
+            MyFunc_iPPGetPINBlock := TPW_iPPGetPINBlock(GetProcedureAddress(MyLibC, 'PW_iPPGetPINBlock'));
+            iRet := MyFunc_iPPGetPINBlock(12, szWorkingKey, min, max, 30, szPrompt, vGetpszDado);
+         end;
+
+
+     if (iRet <> PWEnums.PWRET_OK) then
+        begin
+           // Verifica se Foi inicializada a biblioteca
+           if (iRet = PWEnums.PWRET_DLLNOTINIT)  then
+               begin
+                   MyFunc_iGetResult := TPW_iGetResult(GetProcedureAddress(MyLibC, 'PW_iGetResult'));
+                   iRetErro := MyFunc_iGetResult(PWEnums.PWINFO_RESULTMSG, vGetpszData, SizeOf(vGetpszData));
+                   Volta := vGetpszData[0].pszDataxx;
+                   MandaMemo(Volta);
+               end
+           // verifica se foi feito instalação
+           else if (iRet = PWEnums.PWRET_NOTINST)  then
+               begin
+                   MyFunc_iGetResult := TPW_iGetResult(GetProcedureAddress(MyLibC, 'PW_iGetResult'));
+                   iRetErro := MyFunc_iGetResult(PWEnums.PWINFO_RESULTMSG, vGetpszData, SizeOf(vGetpszData));
+                   Volta := vGetpszData[0].pszDataxx;
+                   MandaMemo(Volta);
+               end
+           // Outro Erro
+           else
+               begin
+                   MyFunc_iGetResult := TPW_iGetResult(GetProcedureAddress(MyLibC, 'PW_iGetResult'));
+                   iRetErro := MyFunc_iGetResult(PWEnums.PWINFO_RESULTMSG, vGetpszData, SizeOf(vGetpszData));
+                   Volta := vGetpszData[0].pszDataxx;
+                   MandaMemo(Volta);
+               end;
+
+
+               Exit;
+
+        end;
+
+
+
+         if (TelCaptura.RadioButton1.Checked = True) then
+             begin
+                //PW_iPPGetUserData
+                  TelCaptura.Label4.Visible := True;
+                  TelCaptura.Label4.Caption := 'Retorno PW_iPPGetUserData ' + nome + ' :' + vGetpszDado[0].pszData;
+                  MandaMemo(' ');
+                  MandaMemo('Retorno PW_iPPGetUserData : ' + nome + ' :' + vGetpszDado[0].pszData);
+             end;
+
+         if (TelCaptura.RadioButton2.Checked = True) then
+             begin
+               // PW_iPPGetPINBlock
+                  TelCaptura.Label4.Visible := True;
+                  TelCaptura.Label4.Caption := 'Retorno PW_iPPGetPINBlock: ' + vGetpszDado[0].pszData;
+                  MandaMemo(' ');
+                  MandaMemo('Retorno PW_iPPGetPINBlock : ' + nome + ' :' + vGetpszDado[0].pszData);
+             end;
+
+
+
+
+
+
+
+  end;
+
 
 
   //=====================================================================================
@@ -2530,6 +3312,7 @@ begin
                                                  begin
                                                      MyFunc_iPPEventLoop := TPW_iPPEventLoop(GetProcedureAddress(MyLibC, 'PW_iPPEventLoop'));
                                                      iRet := MyFunc_iPPEventLoop (vGetpszDisplay, sizeof(vGetpszDisplay));
+                                                     //iRet := PW_iPPEventLoop(vGetpszDisplay, sizeof(vGetpszDisplay));
                                                      if (iRet = PWEnums.PWRET_DISPLAY) then
                                                         begin
                                                             MandaMemo(vGetpszDisplay[0].szDspMsg);
@@ -2563,6 +3346,7 @@ begin
                                                 ulEvent := PWEnums.PWPPEVTIN_KEYS;
                                                 MyFunc_iPPWaitEvent := TPW_iPPWaitEvent(GetProcedureAddress(MyLibC, 'PW_iPPWaitEvent'));
                                                 iRet := MyFunc_iPPWaitEvent (ulEvent);
+                                                //iRet := PW_iPPWaitEvent(ulEvent);
                                                 if(iRet <> PWEnums.PWRET_OK)then
                                                   begin
                                                       MandaMemo('Erro em PPWaitEvent ' + IntToStr(iRet));
@@ -2574,6 +3358,7 @@ begin
                                                  begin
                                                      MyFunc_iPPEventLoop := TPW_iPPEventLoop(GetProcedureAddress(MyLibC, 'PW_iPPEventLoop'));
                                                      iRet := MyFunc_iPPEventLoop (vGetpszDisplay, sizeof(vGetpszDisplay));
+                                                     //iRet := PW_iPPEventLoop(vGetpszDisplay, sizeof(vGetpszDisplay));
                                                      if (iRet = PWEnums.PWRET_DISPLAY) then
                                                         begin
                                                             MandaMemo(vGetpszDisplay[0].szDspMsg);
@@ -2616,6 +3401,7 @@ begin
                                                      begin
                                                         MyFunc_iPPDisplay := TPW_iPPDisplay(GetProcedureAddress(MyLibC, 'PW_iPPDisplay'));
                                                         iRet := MyFunc_iPPDisplay('    OPERACAO        CANCELADA   ');
+                                                        //iRet := PW_iPPDisplay('    OPERACAO        CANCELADA   ');
                                                         if (iRet <> PWEnums.PWRET_OK) then
                                                            begin
                                                              MandaMemo('Erro em PW_iPPDisplay =  ' + IntToStr(iRet));
@@ -2628,6 +3414,7 @@ begin
                                                            begin
                                                                MyFunc_iPPEventLoop := TPW_iPPEventLoop(GetProcedureAddress(MyLibC, 'PW_iPPEventLoop'));
                                                                iRet := MyFunc_iPPEventLoop (vGetpszDisplay, sizeof(vGetpszDisplay));
+                                                               //iRet := PW_iPPEventLoop(vGetpszDisplay, sizeof(vGetpszDisplay));
                                                                if (iRet = PWEnums.PWRET_DISPLAY) then
                                                                   begin
                                                                       MandaMemo(vGetpszDisplay[0].szDspMsg);
@@ -2664,6 +3451,7 @@ begin
                                                      begin
                                                      MyFunc_iPPDisplay := TPW_iPPDisplay(GetProcedureAddress(MyLibC, 'PW_iPPDisplay'));
                                                      iRet := MyFunc_iPPDisplay('   UTILIZE AS   TECLAS F1 OU F2');
+                                                     //iRet := PW_iPPDisplay('   UTILIZE AS   TECLAS F1 OU F2');
                                                      if (iRet <> PWEnums.PWRET_OK) then
                                                          begin
                                                            MandaMemo('Erro em PW_iPPDisplay =  ' + IntToStr(iRet));
@@ -2677,6 +3465,7 @@ begin
                                                        begin
                                                            MyFunc_iPPEventLoop := TPW_iPPEventLoop(GetProcedureAddress(MyLibC, 'PW_iPPEventLoop'));
                                                            iRet := MyFunc_iPPEventLoop (vGetpszDisplay, sizeof(vGetpszDisplay));
+                                                           //iRet := PW_iPPEventLoop(vGetpszDisplay, sizeof(vGetpszDisplay));
                                                            if (iRet = PWEnums.PWRET_DISPLAY) then
                                                               begin
                                                                   MandaMemo(vGetpszDisplay[0].szDspMsg);
@@ -2719,10 +3508,6 @@ begin
 
 
                                 begin
-
-                                     //falta := vstGetData[I].szPrompt;
-                                     //falta := vstGetData[I].szPrompt + chr(13);
-                                     //falta := falta + ' ' + chr(13);
 
                                      x := 0;
 
@@ -2808,7 +3593,6 @@ begin
 
 
                        // Entrada Digitada
-                        //     end;
 
                        PWEnums.PWDAT_TYPED:
                              begin
@@ -2859,13 +3643,19 @@ begin
 
                                         if (wTipoDado = 2) then
                                             begin
-                                              falta := falta + '  ' + vstGetData[i].szMascaraDeCaptura;
                                               //ImputBox Especifico Para Valores Monetarios
-                                              StrTagNFCe := vMInputBox('Informar: ',falta,'',4,2);
-                                              //Retira Ponto e virgula da String
-                                              StrTagNFCe := tirapontos(StrTagNFCe);
-                                              if (StrTagNFCe = '000') then
-                                                  StrTagNFCe := '';
+                                              Form1.Label2.Caption := vstGetData[i].szMascaraDeCaptura;
+                                              Form1.Edit1.Text:= '';
+                                              Form1.ShowModal;
+                                              StrTagNFCe := tirapontos(Form1.Edit1.text);
+
+                                              if (Form1.retornado = 'CANCELA')then
+                                                StrTagNFCe := 'CANCELA'
+                                              else
+                                                begin
+                                                   if (StrTagNFCe = '000') then
+                                                      StrTagNFCe := '';
+                                                end;
                                             end
                                         else if (wTipoDado = 0) then
                                             begin
@@ -3003,6 +3793,7 @@ begin
 
                                    // Verifica se Teclou <ESC>
 
+                                   //if GetAsyncKeyState(VK_ESCAPE)<>0 then
                                    if GetKeyState(VK_ESCAPE)<>0 then
                                       begin
                                         MyFunc_iPPAbort := TPW_iPPAbort(GetProcedureAddress(MyLibC, 'PW_iPPAbort'));
@@ -3034,9 +3825,8 @@ begin
 
                             PWEnums.PWDAT_PPREMCRD:
                               begin
-                                 //  MandaMemo('Loop');
-                                 //  Aguardando();
-                                 //  Application.ProcessMessages;
+
+
                                  iRetByte := vstGetData[I].bTipoDeDado;
                                  MandaMemo('Tipo de Dado: PWDAT_PPREMCRD - ' + IntToStr(iRetByte));
 
@@ -3121,7 +3911,7 @@ begin
                                       end;
 
 
-                                   //if((iRet <> PWEnums.PWRET_OK) And (iRet <> PWEnums.PWRET_DISPLAY) And (iRet <> PWEnums.PWRET_NOTHING)) then
+
                                    if (iRet = PWEnums.PWRET_OK)  then
                                      begin
                                        Result := iRet;
@@ -3506,9 +4296,10 @@ begin
 
 
           end;
+
 //=====================================================================================*\
   {
-     Função Auxiliar
+    Método auxiliar para mover informações para Log da Aplicação
   }
 //=====================================================================================*\
 function TPGWLib.MandaMemo(Descr:string): integer;
@@ -3713,12 +4504,14 @@ end;
           begin
            MandaMemo('PWRET_DISPLAY');
           end;
+
         PWEnums.PWRET_NOTHING:
           begin
            MandaMemo('PWRET_NOTHING');
           end;
 
         PWEnums.PWRET_FROMHOST:
+        //printf("\nRetorno = ERRO DO HOST");
           begin
            MandaMemo('PWRET_FROMHOST');
           end;
@@ -3746,6 +4539,7 @@ end;
           end;
 
         end;
+
 
 
         if(iReturnCode <> PWEnums.PWRET_MOREDATA) and (iReturnCode <> PWEnums.PWRET_DISPLAY) and

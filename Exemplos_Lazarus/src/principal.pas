@@ -1,3 +1,11 @@
+//*****************************************************************************/
+{
+ Main da Aplicação
+
+ Data de criação  : 15/09/2019
+ Autor            :
+ }
+//*****************************************************************************/
 unit principal;
 
 {$mode objfpc}{$H+}
@@ -7,7 +15,7 @@ interface
 uses
   Classes, SysUtils, FileUtil, LResources, Forms, Controls, Graphics, Dialogs,
   StdCtrls, LCLType, LCLProc, LMessages, Menus, ExtCtrls, MaskEdit, uPGWLib,
-  uEnums, ulib, ulib02;
+  uEnums, ulib, ulib02, fcaptura, uValor;
 
 type
 
@@ -18,10 +26,12 @@ type
     Button10: TButton;
     Button11: TButton;
     Button12: TButton;
-    Button13: TButton;
     Button15: TButton;
     Button2: TButton;
     Button3: TButton;
+    Button4: TButton;
+    Button5: TButton;
+    Button6: TButton;
     Button7: TButton;
     Button8: TButton;
     Button9: TButton;
@@ -35,11 +45,13 @@ type
     procedure Button10Click(Sender: TObject);
     procedure Button11Click(Sender: TObject);
     procedure Button12Click(Sender: TObject);
-    procedure Button13Click(Sender: TObject);
     procedure Button15Click(Sender: TObject);
     procedure Button1Click(Sender: TObject);
     procedure Button2Click(Sender: TObject);
     procedure Button3Click(Sender: TObject);
+    procedure Button4Click(Sender: TObject);
+    procedure Button5Click(Sender: TObject);
+    procedure Button6Click(Sender: TObject);
     procedure Button7Click(Sender: TObject);
     procedure Button8Click(Sender: TObject);
     procedure Button9Click(Sender: TObject);
@@ -94,57 +106,69 @@ end;
 
 procedure TTelprincipal.Button11Click(Sender: TObject);
 begin
-    // Venda
+      // Venda
       PGWLib.venda;
 end;
 
 procedure TTelprincipal.Button12Click(Sender: TObject);
 begin
-      // Versão da  LIb
+      // Busca Versão
       PGWLib.GetVersao;
-end;
-
-procedure TTelprincipal.Button13Click(Sender: TObject);
-begin
-      // Descarrega Lib
-      PGWLib.Libera_Lib;
-      Application.Terminate;
 end;
 
 
 procedure TTelprincipal.Button15Click(Sender: TObject);
 begin
-      // Reimpressão
+      // Reimpressão de Recibo da ultima transação
       PGWLib.Reimpressao();
 end;
 
 procedure TTelprincipal.Button1Click(Sender: TObject);
 begin
-      // Confirmação de transação
+      // Confirma Transação
       PGWLib.ConfirmaTrasacao();
 end;
 
 procedure TTelprincipal.Button2Click(Sender: TObject);
 begin
-   // Relatorios por Data
+   // Relatórios diários
    PGWLib.Relatorios();
 end;
 
 procedure TTelprincipal.Button3Click(Sender: TObject);
 begin
-  // Cancelamento de Venda
+  // Cancelamento de transação de venda
   PGWLib.Cancelamento();
 end;
 
+procedure TTelprincipal.Button4Click(Sender: TObject);
+begin
+  // Metodo Administrativo
+  PGWLib.Admin();
+end;
 
+procedure TTelprincipal.Button5Click(Sender: TObject);
+begin
+  // Metodo de Auto Atendimento
+  PGWLib.TesteAA();
+end;
+
+procedure TTelprincipal.Button6Click(Sender: TObject);
+begin
+      // Finaliza Aplicação e libera Lib da Memória
+      PGWLib.Libera_Lib;
+      Application.Terminate;
+end;
 
 procedure TTelprincipal.Button7Click(Sender: TObject);
 begin
+   // Limpa Log da Aplicação
    Memo1.Clear;
 end;
 
 procedure TTelprincipal.Button8Click(Sender: TObject);
 begin
+  telcaptura.ShowModal;
 end;
 
 

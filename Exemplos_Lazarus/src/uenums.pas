@@ -38,7 +38,7 @@ const
 // Definição da versão do aplicativo
 //==========================================================================================
 
-  PGWEBLIBTEST_VERSION = '1.2.0';
+  PGWEBLIBTEST_VERSION = '2.0.0';
   PGWEBLIBTEST_AUTDEV  = 'AUTOMACAO DE SISTEMAS';
   PGWEBLIBTEST_AUTNAME = 'PAYGOTESTE';
   PGWEBLIBTEST_AUTCAP  = '15';

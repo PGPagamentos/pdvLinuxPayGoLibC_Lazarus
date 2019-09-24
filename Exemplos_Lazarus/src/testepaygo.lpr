@@ -7,7 +7,7 @@ uses
   cthreads,
   {$ENDIF}{$ENDIF}
   Interfaces, // this includes the LCL widgetset
-  Forms, principal, upgwlib, uenums, ulib, ulib02;
+  Forms, principal, upgwlib, uenums, ulib, ulib02,fcaptura, uValor;
 
 {$R *.res}
 
@@ -16,6 +16,8 @@ begin
   Application.Scaled:=True;
   Application.Initialize;
   Application.CreateForm(TTelprincipal, Telprincipal);
+  Application.CreateForm(Ttelcaptura, telcaptura);
+  Application.CreateForm(TForm1, Form1);
   Application.Run;
 end.
 

@@ -1,0 +1,163 @@
+object telcaptura: Ttelcaptura
+  Left = 486
+  Height = 240
+  Top = 184
+  Width = 500
+  BorderIcons = []
+  BorderStyle = bsSingle
+  Caption = 'Captura dados no PinPad'
+  ClientHeight = 240
+  ClientWidth = 500
+  Position = poScreenCenter
+  LCLVersion = '2.0.4.0'
+  object ComboBox1: TComboBox
+    Left = 8
+    Height = 27
+    Top = 83
+    Width = 220
+    Font.Height = -11
+    Font.Name = 'Sans'
+    ItemHeight = 0
+    Items.Strings = (
+      'DIGITE_O_DDD'
+      'REDIGITE_O_DDD'
+      'DIGITE_O_TELEFONE'
+      'REDIGITE_O_TELEFONE'
+      'DIGITE_DDD_TELEFONE'
+      'REDIGITE_DDD_TELEFONE'
+      'DIGITE_O_CPF'
+      'REDIGITE_O_CPF'
+      'DIGITE_O_RG'
+      'REDIGITE_O_RG'
+      'DIGITE_OS_4_ULTIMOS_DIGITOS'
+      'DIGITE_CODIGO_DE_SEGURANCA'
+    )
+    OnChange = ComboBox1Change
+    ParentFont = False
+    TabOrder = 0
+  end
+  object ComboBox2: TComboBox
+    Left = 253
+    Height = 27
+    Top = 84
+    Width = 100
+    Font.Height = -11
+    Font.Name = 'Sans'
+    ItemHeight = 0
+    Items.Strings = (
+      '1'
+      '2'
+      '3'
+      '4'
+      '5'
+      '6'
+      '7'
+      '8'
+      '9'
+      '10'
+      '11'
+      '12'
+    )
+    ParentFont = False
+    TabOrder = 1
+  end
+  object ComboBox3: TComboBox
+    Left = 379
+    Height = 27
+    Top = 83
+    Width = 100
+    Font.Height = -11
+    Font.Name = 'Sans'
+    ItemHeight = 0
+    Items.Strings = (
+      '1'
+      '2'
+      '3'
+      '4'
+      '5'
+      '6'
+      '7'
+      '8'
+      '9'
+      '10'
+      '11'
+      '12'
+    )
+    ParentFont = False
+    TabOrder = 2
+  end
+  object Label1: TLabel
+    Left = 12
+    Height = 17
+    Top = 67
+    Width = 75
+    Caption = 'Mensagem'
+    ParentColor = False
+  end
+  object Label2: TLabel
+    Left = 257
+    Height = 17
+    Top = 68
+    Width = 52
+    Caption = 'Minimo'
+    ParentColor = False
+  end
+  object Label3: TLabel
+    Left = 383
+    Height = 17
+    Top = 68
+    Width = 55
+    Caption = 'Máximo'
+    ParentColor = False
+  end
+  object Button1: TButton
+    Left = 25
+    Height = 39
+    Top = 190
+    Width = 114
+    Caption = 'Cancelar'
+    OnClick = Button1Click
+    TabOrder = 3
+  end
+  object Button2: TButton
+    Left = 356
+    Height = 40
+    Top = 189
+    Width = 109
+    Caption = 'Aplicar'
+    OnClick = Button2Click
+    TabOrder = 4
+  end
+  object Label4: TLabel
+    Left = 48
+    Height = 13
+    Top = 136
+    Width = 37
+    Caption = 'Label4'
+    Font.Height = -11
+    Font.Name = 'Sans'
+    ParentColor = False
+    ParentFont = False
+    Visible = False
+  end
+  object RadioButton2: TRadioButton
+    Left = 283
+    Height = 24
+    Top = 8
+    Width = 157
+    Caption = 'PW_iPPGetPINBlock'
+    OnChange = RadioButton2Change
+    TabOrder = 5
+  end
+  object RadioButton1: TRadioButton
+    Left = 70
+    Height = 24
+    Top = 8
+    Width = 159
+    Caption = 'PW_iPPGetUserData'
+    Checked = True
+    OnChange = RadioButton1Change
+    TabOrder = 6
+    TabStop = True
+  end
+end

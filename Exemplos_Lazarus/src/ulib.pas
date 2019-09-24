@@ -278,7 +278,7 @@ begin
     EditMask :=  '!90:00;0;_';
   end;
 
- if Tipo = 4 then       // Data com ano  de 2 digitos
+ if Tipo = 4 then         // Data com ano  de 2 digitos
   begin
     EditMask := '!99/99/00;0;_';
   end;
