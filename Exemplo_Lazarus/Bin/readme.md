@@ -9,6 +9,7 @@
 - Confirmação
 - Relatório
 - Reimpressão
+- Administrativo
 
 
 ### Pré-requisitos
