@@ -9,6 +9,7 @@
 - Confirmação
 - Relatório
 - Reimpressão
+- Administrativo
 
 ### Pré-requisitos
   - Lazarus Linux 32bits versão 2.0.4
