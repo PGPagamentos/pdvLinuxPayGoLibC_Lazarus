@@ -1,6 +1,6 @@
 //*****************************************************************************/
 {
- Main da Aplicação
+ Formulario Main da Aplicação
 
  Data de criação  : 15/09/2019
  Autor            :
@@ -79,6 +79,7 @@ implementation
 
 procedure TTelprincipal.Button9Click(Sender: TObject);
 begin
+      // Inicializa a Lib
       PGWLib.Init;
 end;
 
@@ -86,6 +87,7 @@ end;
 
 procedure TTelprincipal.FormCreate(Sender: TObject);
 begin
+    // Atualiza Informações da Aplicação Nome/Versão
     Label1.Caption := 'PWINFO_AUTNAME(21): ' + '  ' + PWEnums.PGWEBLIBTEST_AUTNAME;
     Label2.Caption := 'PWINFO_AUTVER (22) : ' + '  ' + PWEnums.PGWEBLIBTEST_VERSION;
     Label3.Caption := 'PWINFO_AUTDEV (23) : ' + '  ' + PWEnums.PGWEBLIBTEST_AUTDEV;
@@ -106,68 +108,69 @@ end;
 
 procedure TTelprincipal.Button11Click(Sender: TObject);
 begin
-      // Venda
+      // executa Método de Transação Venda
       PGWLib.venda;
 end;
 
 procedure TTelprincipal.Button12Click(Sender: TObject);
 begin
-      // Busca Versão
+      // Retorna Versão atual da Lib
       PGWLib.GetVersao;
 end;
 
 
 procedure TTelprincipal.Button15Click(Sender: TObject);
 begin
-      // Reimpressão de Recibo da ultima transação
+      // Reimpressão do Recibo da ultima transação de Venda
       PGWLib.Reimpressao();
 end;
 
 procedure TTelprincipal.Button1Click(Sender: TObject);
 begin
-      // Confirma Transação
+      // Confirmação de Transação
       PGWLib.ConfirmaTrasacao();
 end;
 
 procedure TTelprincipal.Button2Click(Sender: TObject);
 begin
-   // Relatórios diários
+   // Relatório de Vendas/Cancelamentos por Data/Hora
    PGWLib.Relatorios();
 end;
 
 procedure TTelprincipal.Button3Click(Sender: TObject);
 begin
-  // Cancelamento de transação de venda
+  // Cancelamento de Transação de Venda
   PGWLib.Cancelamento();
 end;
 
 procedure TTelprincipal.Button4Click(Sender: TObject);
 begin
-  // Metodo Administrativo
+  // Executa Método Administrativo
   PGWLib.Admin();
 end;
 
 procedure TTelprincipal.Button5Click(Sender: TObject);
 begin
-  // Metodo de Auto Atendimento
+  // Executa Metodo de Auto Atendimento
   PGWLib.TesteAA();
 end;
 
 procedure TTelprincipal.Button6Click(Sender: TObject);
 begin
-      // Finaliza Aplicação e libera Lib da Memória
+      // Finaliza aplicação e Libera Lib da Memória
       PGWLib.Libera_Lib;
       Application.Terminate;
 end;
 
 procedure TTelprincipal.Button7Click(Sender: TObject);
 begin
-   // Limpa Log da Aplicação
+   // Limpa Tela de Log da Aplicação
    Memo1.Clear;
 end;
 
 procedure TTelprincipal.Button8Click(Sender: TObject);
 begin
+  // Executa Captura de PinPad
   telcaptura.ShowModal;
 end;
 

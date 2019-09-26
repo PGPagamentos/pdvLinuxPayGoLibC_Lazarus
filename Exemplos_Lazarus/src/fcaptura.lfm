@@ -146,6 +146,7 @@ object telcaptura: Ttelcaptura
     Top = 8
     Width = 157
     Caption = 'PW_iPPGetPINBlock'
+    Enabled = False
     OnChange = RadioButton2Change
     TabOrder = 5
   end

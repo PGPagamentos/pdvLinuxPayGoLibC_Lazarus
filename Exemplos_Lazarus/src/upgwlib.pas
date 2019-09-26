@@ -1290,7 +1290,9 @@ uses Principal, uLib02, fcaptura;
                     if (iRet = PWEnums.PWRET_FROMHOSTPENDTRN) then
                         begin
                             // Busca Parametros da Transação Pendente
+                            MandaMemo('Existe Transação Pendente, Favor Confirmar!');
                             GetParamPendenteConfirma();
+                            ConfirmaTrasacao();
                         end
                     else
                         begin
@@ -1836,7 +1838,9 @@ uses Principal, uLib02, fcaptura;
                 if (iRet = PWEnums.PWRET_FROMHOSTPENDTRN) then
                     begin
                         // Busca Parametros da Transação Pendente
+                        MandaMemo('Existe Transação Pendente, Favor Confirmar!');
                         GetParamPendenteConfirma();
+                        ConfirmaTrasacao();
                     end
                 else
                     begin
@@ -1991,7 +1995,9 @@ uses Principal, uLib02, fcaptura;
                 if (iRet = PWEnums.PWRET_FROMHOSTPENDTRN) then
                     begin
                         // Busca Parametros da Transação Pendente
+                        MandaMemo('Existe Transação Pendente, Favor Confirmar!');
                         GetParamPendenteConfirma();
+                        ConfirmaTrasacao();
                     end;
 
 
@@ -2147,7 +2153,9 @@ uses Principal, uLib02, fcaptura;
                 if (iRet = PWEnums.PWRET_FROMHOSTPENDTRN) then
                     begin
                         // Busca Parametros da Transação Pendente
+                        MandaMemo('Existe Transação Pendente, Favor Confirmar!');
                         GetParamPendenteConfirma();
+                        ConfirmaTrasacao();
                     end
                 else
                     begin
@@ -2312,7 +2320,9 @@ uses Principal, uLib02, fcaptura;
                 if (iRet = PWEnums.PWRET_FROMHOSTPENDTRN) then
                     begin
                         // Busca Parametros da Transação Pendente
+                        MandaMemo('Existe Transação Pendente, Favor Confirmar!');
                         GetParamPendenteConfirma();
+                        ConfirmaTrasacao();
                     end
                 else
                     begin
@@ -2389,6 +2399,7 @@ uses Principal, uLib02, fcaptura;
 
 
       gfAutoAtendimento := True;
+                                                  
 
 
       ulEvent := 0;
@@ -2527,7 +2538,8 @@ uses Principal, uLib02, fcaptura;
                           MyFunc_iPPAbort := TPW_iPPAbort(GetProcedureAddress(MyLibC, 'PW_iPPAbort'));
                           iRetErro := MyFunc_iPPAbort();
                           MandaMemo(' ');
-                          MandaMemo('TRANSAÇÃO ABORTADA PELA APLICAÇÃO');
+                          MandaMemo('TTRANSAÇÃO ABORTADA PELA APLICAÇÃO');
+                         // MandaMemo( 'iPPAbort : ' +  IntToStr(iRetErro));
                           mRCancelado := 1;
                           Result := 1;
                           Exit;
@@ -2690,7 +2702,9 @@ uses Principal, uLib02, fcaptura;
                 if (iRet = PWEnums.PWRET_FROMHOSTPENDTRN) then
                     begin
                         // Busca Parametros da Transação Pendente
+                        MandaMemo('Existe Transação Pendente, Favor Confirmar!');
                         GetParamPendenteConfirma();
+                        ConfirmaTrasacao();
                     end
                 else
                     begin
@@ -2969,7 +2983,7 @@ uses Principal, uLib02, fcaptura;
 
   //=====================================================================================*\
     {
-       Metodo Auxiliar para Mensagem no Log da Aplicação
+       Metodo Auxiliar
     }
   //=====================================================================================*/
 
@@ -3037,11 +3051,11 @@ uses Principal, uLib02, fcaptura;
   end;
 
 
-//=====================================================================================
+ //=====================================================================================*\
     {
-       Captura de Dados do PinPad (em desenvolvimento, não usar)
+       Captura Dados no PinPad
     }
-//=====================================================================================
+ //=====================================================================================*\
 
 
   function TPGWLib.CapturaPinPad(nome: string; identificador: Byte; min: Byte;
@@ -3098,6 +3112,9 @@ uses Principal, uLib02, fcaptura;
          end;
 
      // PW_iPPGetPINBlock
+     // "Não Usar !!, ainda não foi implementado na Lib"
+     // Na Aplicação teste esta Desabilitado o RadioButton2 !
+     // Quando for Implementado, Basta habilitar novamente e recompilar !
      if (TelCaptura.RadioButton2.Checked = True) then
          begin
             if (min < 4) then
@@ -3399,6 +3416,8 @@ begin
                                                      end
                                                  else if(ulEvent = PWEnums.PWPPEVT_KEYCANC) then
                                                      begin
+                                                        MyFunc_iPPAbort := TPW_iPPAbort(GetProcedureAddress(MyLibC, 'PW_iPPAbort'));
+                                                        iRetErro := MyFunc_iPPAbort();
                                                         MyFunc_iPPDisplay := TPW_iPPDisplay(GetProcedureAddress(MyLibC, 'PW_iPPDisplay'));
                                                         iRet := MyFunc_iPPDisplay('    OPERACAO        CANCELADA   ');
                                                         //iRet := PW_iPPDisplay('    OPERACAO        CANCELADA   ');
@@ -3509,6 +3528,8 @@ begin
 
                                 begin
 
+
+
                                      x := 0;
 
                                      while (X < vstGetData[I].bNumOpcoesMenu) do
@@ -3593,6 +3614,7 @@ begin
 
 
                        // Entrada Digitada
+                        //     end;
 
                        PWEnums.PWDAT_TYPED:
                              begin
@@ -3643,9 +3665,11 @@ begin
 
                                         if (wTipoDado = 2) then
                                             begin
+
                                               //ImputBox Especifico Para Valores Monetarios
+
                                               Form1.Label2.Caption := vstGetData[i].szMascaraDeCaptura;
-                                              Form1.Edit1.Text:= '';
+                                              Form1.Edit1.Text:='';
                                               Form1.ShowModal;
                                               StrTagNFCe := tirapontos(Form1.Edit1.text);
 
@@ -3659,6 +3683,7 @@ begin
                                             end
                                         else if (wTipoDado = 0) then
                                             begin
+
                                                StrTagNFCe:= vInputBox('Informar: ', falta,'',1);
                                             end
                                         else
@@ -3776,7 +3801,6 @@ begin
                                           MandaMemo(' ');
                                       end;
 
-                                   //if((iRet <> PWEnums.PWRET_OK) And (iRet <> PWEnums.PWRET_DISPLAY) And (iRet <> PWEnums.PWRET_NOTHING)) then
                                    if (iRet = PWEnums.PWRET_OK)  then
                                      begin
                                        Result := iRet;
@@ -3826,7 +3850,6 @@ begin
                             PWEnums.PWDAT_PPREMCRD:
                               begin
 
-
                                  iRetByte := vstGetData[I].bTipoDeDado;
                                  MandaMemo('Tipo de Dado: PWDAT_PPREMCRD - ' + IntToStr(iRetByte));
 
@@ -3853,7 +3876,6 @@ begin
                                           MandaMemo(' ');
                                       end;
 
-                                   //if((iRet <> PWEnums.PWRET_OK) And (iRet <> PWEnums.PWRET_DISPLAY) And (iRet <> PWEnums.PWRET_NOTHING)) then
                                    if (iRet = PWEnums.PWRET_OK)  then
                                      begin
                                        Result := iRet;
@@ -3911,7 +3933,7 @@ begin
                                       end;
 
 
-
+                                   //if((iRet <> PWEnums.PWRET_OK) And (iRet <> PWEnums.PWRET_DISPLAY) And (iRet <> PWEnums.PWRET_NOTHING)) then
                                    if (iRet = PWEnums.PWRET_OK)  then
                                      begin
                                        Result := iRet;
@@ -4299,7 +4321,7 @@ begin
 
 //=====================================================================================*\
   {
-    Método auxiliar para mover informações para Log da Aplicação
+     Inclui Informações no Log da Aplicação
   }
 //=====================================================================================*\
 function TPGWLib.MandaMemo(Descr:string): integer;
