@@ -96,7 +96,6 @@ object Telprincipal: TTelprincipal
     Top = 448
     Width = 168
     Caption = 'Capturar dados no PinPad'
-    Enabled = False
     Font.Height = -11
     Font.Name = 'Sans'
     OnClick = Button8Click

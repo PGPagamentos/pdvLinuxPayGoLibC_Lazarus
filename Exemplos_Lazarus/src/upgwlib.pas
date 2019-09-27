@@ -1989,7 +1989,6 @@ uses Principal, uLib02, fcaptura;
                     Continue;
                   end;
 
-
                 // Esta Opção Não precisa de Confirmação, mas caso exista uma transação pendente
                 // vai armazenar informações para executar uma confirmação no Menu.
                 if (iRet = PWEnums.PWRET_FROMHOSTPENDTRN) then
@@ -2085,7 +2084,6 @@ uses Principal, uLib02, fcaptura;
                 Exit;
 
          end;
-
 
 
 

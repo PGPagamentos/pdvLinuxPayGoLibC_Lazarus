@@ -3,13 +3,13 @@
   <ProjectSession>
     <Version Value="11"/>
     <BuildModes Active="Default"/>
-    <Units Count="17">
+    <Units Count="23">
       <Unit0>
         <Filename Value="testepaygo.lpr"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="2"/>
-        <CursorPos X="95" Y="23"/>
-        <UsageCount Value="164"/>
+        <CursorPos Y="21"/>
+        <UsageCount Value="204"/>
         <Loaded Value="True"/>
       </Unit0>
       <Unit1>
@@ -18,37 +18,36 @@
         <ComponentName Value="Telprincipal"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="145"/>
-        <CursorPos X="17" Y="155"/>
-        <UsageCount Value="164"/>
+        <CursorPos Y="144"/>
+        <UsageCount Value="204"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit1>
       <Unit2>
         <Filename Value="upgwlib.pas"/>
         <IsPartOfProject Value="True"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="6"/>
-        <TopLine Value="1288"/>
-        <CursorPos X="25" Y="1131"/>
-        <UsageCount Value="164"/>
+        <TopLine Value="1977"/>
+        <CursorPos Y="1992"/>
+        <UsageCount Value="204"/>
         <Loaded Value="True"/>
       </Unit2>
       <Unit3>
         <Filename Value="uenums.pas"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="3"/>
-        <TopLine Value="72"/>
-        <CursorPos X="18" Y="81"/>
-        <UsageCount Value="164"/>
+        <TopLine Value="235"/>
+        <CursorPos X="16" Y="253"/>
+        <UsageCount Value="204"/>
         <Loaded Value="True"/>
       </Unit3>
       <Unit4>
         <Filename Value="ulib.pas"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="4"/>
-        <UsageCount Value="164"/>
+        <UsageCount Value="204"/>
         <Loaded Value="True"/>
       </Unit4>
       <Unit5>
@@ -56,7 +55,7 @@
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="5"/>
         <CursorPos X="28" Y="4"/>
-        <UsageCount Value="164"/>
+        <UsageCount Value="204"/>
         <Loaded Value="True"/>
       </Unit5>
       <Unit6>
@@ -65,8 +64,9 @@
         <ComponentName Value="telcaptura"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <TopLine Value="60"/>
-        <UsageCount Value="82"/>
+        <TopLine Value="4"/>
+        <CursorPos Y="94"/>
+        <UsageCount Value="122"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit6>
@@ -80,7 +80,7 @@
         <EditorIndex Value="7"/>
         <TopLine Value="76"/>
         <CursorPos Y="97"/>
-        <UsageCount Value="41"/>
+        <UsageCount Value="81"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit7>
@@ -90,38 +90,38 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="19"/>
         <CursorPos X="85" Y="32"/>
-        <UsageCount Value="9"/>
+        <UsageCount Value="5"/>
       </Unit8>
       <Unit9>
         <Filename Value="../Copias/windows/PaygoTeste/uPGWLib.pas"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="704"/>
         <CursorPos Y="745"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="6"/>
       </Unit9>
       <Unit10>
         <Filename Value="/usr/share/fpcsrc/3.0.4/rtl/inc/dynlibs.pas"/>
         <EditorIndex Value="-1"/>
-        <UsageCount Value="7"/>
+        <UsageCount Value="3"/>
       </Unit10>
       <Unit11>
         <Filename Value="../Copias/windows/PaygoTeste/Principal.pas"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="223"/>
-        <UsageCount Value="7"/>
+        <UsageCount Value="3"/>
       </Unit11>
       <Unit12>
         <Filename Value="../Copias/windows/PaygoTeste/uLib.pas"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="298"/>
-        <UsageCount Value="9"/>
+        <UsageCount Value="5"/>
       </Unit12>
       <Unit13>
         <Filename Value="/usr/share/lazarus/2.0.4/lcl/include/control.inc"/>
         <EditorIndex Value="-1"/>
-        <TopLine Value="2904"/>
-        <CursorPos Y="2915"/>
-        <UsageCount Value="0"/>
+        <TopLine Value="2233"/>
+        <CursorPos Y="2244"/>
+        <UsageCount Value="7"/>
       </Unit13>
       <Unit14>
         <Filename Value="../Copias/windows/PaygoTeste/FCaptura.pas"/>
@@ -131,7 +131,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="58"/>
         <CursorPos X="31" Y="63"/>
-        <UsageCount Value="6"/>
+        <UsageCount Value="2"/>
       </Unit14>
       <Unit15>
         <Filename Value="/usr/share/lazarus/2.0.4/components/lazutils/laztracer.pas"/>
@@ -139,132 +139,178 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="35"/>
         <CursorPos Y="50"/>
-        <UsageCount Value="9"/>
+        <UsageCount Value="5"/>
       </Unit15>
       <Unit16>
         <Filename Value="../desenvolverv2/upgwlib.pas"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="1914"/>
         <CursorPos Y="1924"/>
-        <UsageCount Value="6"/>
+        <UsageCount Value="2"/>
       </Unit16>
+      <Unit17>
+        <Filename Value="/usr/share/lazarus/2.0.4/lcl/controls.pp"/>
+        <UnitName Value="Controls"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="7"/>
+      </Unit17>
+      <Unit18>
+        <Filename Value="/usr/share/lazarus/2.0.4/lcl/include/buttoncontrol.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="10"/>
+        <CursorPos Y="22"/>
+        <UsageCount Value="6"/>
+      </Unit18>
+      <Unit19>
+        <Filename Value="/usr/share/lazarus/2.0.4/lcl/include/buttons.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="158"/>
+        <CursorPos Y="170"/>
+        <UsageCount Value="6"/>
+      </Unit19>
+      <Unit20>
+        <Filename Value="/usr/share/lazarus/2.0.4/lcl/include/wincontrol.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="5409"/>
+        <CursorPos Y="5420"/>
+        <UsageCount Value="6"/>
+      </Unit20>
+      <Unit21>
+        <Filename Value="/usr/share/lazarus/2.0.4/lcl/lclmessageglue.pas"/>
+        <UnitName Value="LCLMessageGlue"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="108"/>
+        <CursorPos Y="123"/>
+        <UsageCount Value="6"/>
+      </Unit21>
+      <Unit22>
+        <Filename Value="/usr/share/lazarus/2.0.4/lcl/interfaces/gtk2/gtk2wsstdctrls.pp"/>
+        <UnitName Value="Gtk2WSStdCtrls"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="2451"/>
+        <CursorPos Y="2462"/>
+        <UsageCount Value="6"/>
+      </Unit22>
     </Units>
     <JumpHistory Count="30" HistoryIndex="29">
       <Position1>
         <Filename Value="upgwlib.pas"/>
-        <Caret Line="688" Column="19" TopLine="668"/>
+        <Caret Line="3881" TopLine="3866"/>
       </Position1>
       <Position2>
-        <Filename Value="principal.pas"/>
-        <Caret Line="155" Column="17" TopLine="139"/>
+        <Filename Value="upgwlib.pas"/>
+        <Caret Line="3882" TopLine="3866"/>
       </Position2>
       <Position3>
-        <Filename Value="principal.pas"/>
-        <Caret Line="125" Column="14" TopLine="122"/>
+        <Filename Value="upgwlib.pas"/>
+        <Caret Line="4320" TopLine="4309"/>
       </Position3>
       <Position4>
         <Filename Value="upgwlib.pas"/>
-        <Caret Line="1296" TopLine="1285"/>
+        <Caret Line="2121" TopLine="2110"/>
       </Position4>
       <Position5>
         <Filename Value="upgwlib.pas"/>
-        <Caret Line="1844" TopLine="1833"/>
+        <Caret Line="2127" TopLine="2110"/>
       </Position5>
       <Position6>
-        <Filename Value="principal.pas"/>
-        <Caret Line="18" Column="11" TopLine="6"/>
+        <Filename Value="upgwlib.pas"/>
+        <Caret Line="2128" TopLine="2110"/>
       </Position6>
       <Position7>
-        <Filename Value="principal.pas"/>
-        <Caret Line="137" Column="11" TopLine="133"/>
+        <Filename Value="upgwlib.pas"/>
+        <Caret Line="2103" TopLine="2103"/>
       </Position7>
       <Position8>
         <Filename Value="upgwlib.pas"/>
-        <Caret Line="1845" Column="69" TopLine="1833"/>
+        <Caret Line="2108" TopLine="2104"/>
       </Position8>
       <Position9>
         <Filename Value="upgwlib.pas"/>
+        <Caret Line="2114" TopLine="2104"/>
       </Position9>
       <Position10>
         <Filename Value="upgwlib.pas"/>
-        <Caret Line="696" Column="24" TopLine="678"/>
+        <Caret Line="2115" TopLine="2104"/>
       </Position10>
       <Position11>
-        <Filename Value="principal.pas"/>
-        <Caret Line="137" Column="21" TopLine="133"/>
+        <Filename Value="upgwlib.pas"/>
+        <Caret Line="2116" TopLine="2104"/>
       </Position11>
       <Position12>
-        <Filename Value="principal.pas"/>
-        <Caret Line="146" Column="67" TopLine="133"/>
+        <Filename Value="upgwlib.pas"/>
+        <Caret Line="2120" TopLine="2104"/>
       </Position12>
       <Position13>
-        <Filename Value="principal.pas"/>
+        <Filename Value="upgwlib.pas"/>
+        <Caret Line="3276" TopLine="3265"/>
       </Position13>
       <Position14>
-        <Filename Value="principal.pas"/>
-        <Caret Line="136" Column="40" TopLine="116"/>
+        <Filename Value="upgwlib.pas"/>
+        <Caret Line="3853" TopLine="3842"/>
       </Position14>
       <Position15>
         <Filename Value="upgwlib.pas"/>
-        <Caret Line="1997" Column="54" TopLine="1989"/>
+        <Caret Line="3854" TopLine="3842"/>
       </Position15>
       <Position16>
         <Filename Value="upgwlib.pas"/>
+        <Caret Line="3856" TopLine="3842"/>
       </Position16>
       <Position17>
         <Filename Value="upgwlib.pas"/>
-        <Caret Line="70" Column="30" TopLine="50"/>
+        <Caret Line="3857" TopLine="3842"/>
       </Position17>
       <Position18>
         <Filename Value="upgwlib.pas"/>
-        <Caret Line="698" Column="26" TopLine="680"/>
+        <Caret Line="3859" TopLine="3842"/>
       </Position18>
       <Position19>
         <Filename Value="upgwlib.pas"/>
-        <Caret Line="1876" Column="57" TopLine="1874"/>
+        <Caret Line="3861" TopLine="3842"/>
       </Position19>
       <Position20>
-        <Filename Value="principal.pas"/>
-        <Caret Line="142" Column="18" TopLine="125"/>
+        <Filename Value="upgwlib.pas"/>
+        <Caret Line="3862" TopLine="3843"/>
       </Position20>
       <Position21>
-        <Filename Value="principal.pas"/>
-        <Caret Line="149" Column="10" TopLine="146"/>
+        <Filename Value="upgwlib.pas"/>
+        <Caret Line="4320" TopLine="4309"/>
       </Position21>
       <Position22>
         <Filename Value="upgwlib.pas"/>
-        <Caret Line="2159" TopLine="2148"/>
+        <Caret Line="2121" TopLine="2110"/>
       </Position22>
       <Position23>
-        <Filename Value="principal.pas"/>
-        <Caret Line="149" Column="15" TopLine="145"/>
+        <Filename Value="upgwlib.pas"/>
+        <Caret Line="2198" TopLine="2175"/>
       </Position23>
       <Position24>
         <Filename Value="principal.pas"/>
-        <Caret Line="155" Column="10" TopLine="145"/>
+        <Caret Line="144" TopLine="138"/>
       </Position24>
       <Position25>
         <Filename Value="upgwlib.pas"/>
-        <Caret Line="2326" TopLine="2311"/>
+        <Caret Line="3691" Column="51" TopLine="3680"/>
       </Position25>
       <Position26>
         <Filename Value="upgwlib.pas"/>
-        <Caret Line="2700" Column="63" TopLine="2696"/>
+        <Caret Line="3675" Column="63" TopLine="3575"/>
       </Position26>
       <Position27>
         <Filename Value="upgwlib.pas"/>
       </Position27>
       <Position28>
         <Filename Value="upgwlib.pas"/>
-        <Caret Line="312" Column="55" TopLine="292"/>
+        <Caret Line="70" Column="30" TopLine="50"/>
       </Position28>
       <Position29>
         <Filename Value="upgwlib.pas"/>
-        <Caret Line="688" Column="19" TopLine="668"/>
+        <Caret Line="698" Column="26" TopLine="680"/>
       </Position29>
       <Position30>
         <Filename Value="upgwlib.pas"/>
-        <Caret Line="1127" Column="39" TopLine="1107"/>
+        <Caret Line="1876" Column="57" TopLine="1874"/>
       </Position30>
     </JumpHistory>
     <RunParams>
@@ -272,4 +318,22 @@
       <Modes Count="0" ActiveMode=""/>
     </RunParams>
   </ProjectSession>
+  <Debugging>
+    <BreakPoints Count="2">
+      <Item1>
+        <Kind Value="bpkSource"/>
+        <WatchScope Value="wpsLocal"/>
+        <WatchKind Value="wpkWrite"/>
+        <Source Value="upgwlib.pas"/>
+        <Line Value="2106"/>
+      </Item1>
+      <Item2>
+        <Kind Value="bpkSource"/>
+        <WatchScope Value="wpsLocal"/>
+        <WatchKind Value="wpkWrite"/>
+        <Source Value="upgwlib.pas"/>
+        <Line Value="3274"/>
+      </Item2>
+    </BreakPoints>
+  </Debugging>
 </CONFIG>

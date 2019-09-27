@@ -81,7 +81,6 @@ begin
         Label4.Caption := '';
         Label4.Visible := False;
       end;
-
 end;
 
 procedure Ttelcaptura.RadioButton2Change(Sender: TObject);
@@ -92,7 +91,6 @@ begin
         Label4.Caption := '';
         Label4.Visible := False;
       end;
-
 end;
 
 
