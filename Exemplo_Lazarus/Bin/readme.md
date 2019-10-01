@@ -20,10 +20,21 @@
 
 #### Instruções de uso do exemplo Lazarus Linux
 
--  Criar um pasta com permissoes(totais) e copiar o pacote zipado.
--  Ao Descompactar o pacote, será criado uma pasta de nome EXECUTAVEL, contendo o programa testepaygo.so, PGWebLib.so, certificado.crt
-   e um Readme com algumas instruções.
--  Criar permissões Totais na porta USB que o PinPad estiver Instalado.
+-  Entrar no modo terminal.
+-  digitar su e informar senha do root.
+-  PASTA:
+-  Criar um pasta dentro de /home - exemplo:  mkdir /home/pastateste
+-  criar permissões para a pasta -  chmod 777 /home/pastateste
+-  copiar o pacote zipado para esta pasta e descompactar.
+-  Ao Descompactar o pacote, será criado uma sub-pasta de nome EXECUTAVEL, contendo o programa testepaygo.so, PGWebLib.so,           certificado.crt e um Readme com algumas instruções.
+-  PINPAD:
+-  conectar o Pinpad e Pesquisar em qual USB ele esta conectado - comando: dmesg 
+será listado muitas informações, procurar por GERTEC, ao encontrar criar permissões totais na pasta /dev
+exemplo de um PinPad na USB ttyACM0: 
+cd /dev  = pasta com todas as portas
+chmod 777 ttyACM0  = permissões totais
+ls -l  = lista todas as permissõs da pasta /dev
+
 -  Pode Executar o programa no modo gráfico.
 
 ### Link para download do Ubuntu 16.4 32 bits
