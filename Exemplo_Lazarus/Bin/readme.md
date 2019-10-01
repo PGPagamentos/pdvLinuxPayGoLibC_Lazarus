@@ -21,10 +21,10 @@
 #### Instruções de uso do exemplo Lazarus Linux
 
 -  Entrar no modo terminal.
--  digitar [su] e informar senha do [root].
+-  digitar: su  e informar senha do [root].
 -  PASTA:
--  Criar um pasta dentro de /home - exemplo:  mkdir /home/pastateste
--  criar permissões para a pasta -  chmod 777 /home/pastateste
+-  Criar um pasta dentro de /home = exemplo:  mkdir /home/pastateste
+-  criar permissões para a pasta:  chmod 777 /home/pastateste
 -  copiar o pacote zipado para esta pasta e descompactar.
 -  Ao Descompactar o pacote, será criado uma sub-pasta de nome EXECUTAVEL, contendo o programa testepaygo.so, PGWebLib.so,           certificado.crt e um Readme com algumas instruções.
 -  PINPAD:
