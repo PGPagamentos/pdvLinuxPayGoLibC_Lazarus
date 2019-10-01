@@ -21,7 +21,7 @@
 #### Instruções de uso do exemplo Lazarus Linux
 
 -  Entrar no modo terminal.
--  digitar su e informar senha do root.
+-  digitar [su] e informar senha do [root].
 -  PASTA:
 -  Criar um pasta dentro de /home - exemplo:  mkdir /home/pastateste
 -  criar permissões para a pasta -  chmod 777 /home/pastateste
